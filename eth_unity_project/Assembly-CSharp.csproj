@@ -60,11 +60,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\AccountModule.cs" />
+    <Compile Include="Assets\AccountModuleScripts\Account.cs" />
+    <Compile Include="Assets\AccountModuleScripts\Balance.cs" />
+    <Compile Include="Assets\AccountModuleScripts\BlockChainController.cs" />
+    <Compile Include="Assets\AccountModuleScripts\Payment.cs" />
+    <Compile Include="Assets\DecodeData.cs" />
+    <Compile Include="Assets\EtherTransfer.cs" />
+    <Compile Include="Assets\TokenDeployAndSend.cs" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -241,7 +248,7 @@
       <HintPath>/Applications/Unity/Unity.app/Contents/Managed/Unity.Locator.dll</HintPath>
     </Reference>
     <Reference Include="Facebook.Unity.Settings">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIAutomation">
       <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UIAutomation/UnityEngine.UIAutomation.dll</HintPath>
@@ -265,43 +272,43 @@
       <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Nethereum.KeyStore">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Assets/Nethereum.Unity/Nethereum.KeyStore.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.KeyStore.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Assets/Nethereum.Unity/System.Threading.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Assets/Plugins/System.Threading.dll</HintPath>
     </Reference>
     <Reference Include="Nethereum.ABI">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Assets/Nethereum.Unity/Nethereum.ABI.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.ABI.dll</HintPath>
     </Reference>
     <Reference Include="Nethereum.Signer">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Assets/Nethereum.Unity/Nethereum.Signer.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.Signer.dll</HintPath>
     </Reference>
     <Reference Include="Nethereum.JsonRpc.Client">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Assets/Nethereum.Unity/Nethereum.JsonRpc.Client.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.JsonRpc.Client.dll</HintPath>
     </Reference>
     <Reference Include="Nethereum.RPC">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Assets/Nethereum.Unity/Nethereum.RPC.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.RPC.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Assets/Nethereum.Unity/Newtonsoft.Json.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Nethereum.Contracts">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Assets/Nethereum.Unity/Nethereum.Contracts.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="Nethereum.Unity">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Assets/Nethereum.Unity/Nethereum.Unity.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.Unity.dll</HintPath>
     </Reference>
     <Reference Include="Nethereum.Hex">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Assets/Nethereum.Unity/Nethereum.Hex.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.Hex.dll</HintPath>
     </Reference>
     <Reference Include="BouncyCastle.Crypto">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Assets/Nethereum.Unity/BouncyCastle.Crypto.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Assets/Plugins/BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="Nethereum.Util">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Assets/Nethereum.Unity/Nethereum.Util.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.Util.dll</HintPath>
     </Reference>
     <Reference Include="Nethereum.RLP">
-      <HintPath>/Users/nicktaras/Documents/github/unity_ethereum/eth_unity_project/Assets/Nethereum.Unity/Nethereum.RLP.dll</HintPath>
+      <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.RLP.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>/Users/nicktaras/Library/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
