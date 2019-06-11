@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Nethereum.JsonRpc.UnityClient;
-using UnityEngine;
 
 public class Balance {
     public IEnumerator GetBalance(string server, string address, System.Action<decimal> callback)

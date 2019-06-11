@@ -1,11 +1,10 @@
 ﻿<Properties StartupConfiguration="{1B128D0E-E49F-AB85-3C46-5E4DEBC03BD8}|">
   <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/AccountModuleScripts/Payment.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/old_ref_only/ShowBalance.cs">
     <Files>
-      <File FileName="Assets/AccountModuleScripts/Account.cs" Line="4" Column="1" />
-      <File FileName="Assets/AccountModuleScripts/Balance.cs" Line="6" Column="97" />
-      <File FileName="Assets/AccountModuleScripts/BlockChainController.cs" Line="2" Column="1" />
-      <File FileName="Assets/AccountModuleScripts/Payment.cs" Line="7" Column="8" />
+      <File FileName="Assets/AccountModuleScripts/BalanceController.cs" Line="18" Column="6" />
+      <File FileName="Assets/AccountModuleScripts/Balance.cs" Line="2" Column="20" />
+      <File FileName="Assets/old_ref_only/ShowBalance.cs" Line="15" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

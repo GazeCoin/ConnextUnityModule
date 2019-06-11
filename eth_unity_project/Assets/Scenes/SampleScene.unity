@@ -188,9 +188,8 @@ GameObject:
   - component: {fileID: 282840814}
   - component: {fileID: 282840813}
   - component: {fileID: 282840811}
-  - component: {fileID: 282840812}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,17 +202,6 @@ AudioListener:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 282840810}
   m_Enabled: 1
---- !u!114 &282840812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 282840810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 827e35abe6de543ef9d7778998369daa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!20 &282840813
 Camera:
   m_ObjectHideFlags: 0
@@ -261,7 +249,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1595414197
 GameObject:
@@ -425,7 +413,7 @@ RectTransform:
   - {fileID: 1925411711}
   - {fileID: 1894614665}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -505,6 +493,8 @@ GameObject:
   - component: {fileID: 1894614667}
   - component: {fileID: 1894614666}
   - component: {fileID: 1894614668}
+  - component: {fileID: 1894614669}
+  - component: {fileID: 1894614670}
   m_Layer: 5
   m_Name: BalanceField
   m_TagString: Player
@@ -578,6 +568,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 031c9be9057a24197ab4ab411c56f8d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BalanceField: {fileID: 1894614666}
+--- !u!114 &1894614669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1894614664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e8431da550f4c6b8b479db298e8b9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pollStart: 0
+  pollRepeat: 0.1
+  fromPub: 0xD2512Bc76c30cEA4E950212D192bf73294054937
+--- !u!114 &1894614670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1894614664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9abedb165193f40a9b634aae29fa050b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   BalanceField: {fileID: 1894614666}

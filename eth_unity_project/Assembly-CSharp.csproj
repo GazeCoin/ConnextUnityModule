@@ -61,10 +61,11 @@
   <ItemGroup>
     <Compile Include="Assets\AccountModuleScripts\Account.cs" />
     <Compile Include="Assets\AccountModuleScripts\Balance.cs" />
-    <Compile Include="Assets\AccountModuleScripts\BlockChainController.cs" />
+    <Compile Include="Assets\AccountModuleScripts\BalanceController.cs" />
     <Compile Include="Assets\AccountModuleScripts\Payment.cs" />
+    <Compile Include="Assets\AccountModuleScripts\ShowBalance.cs" />
+    <Compile Include="Assets\old_ref_only\BlockChainController.cs" />
     <Compile Include="Assets\PayButton.cs" />
-    <Compile Include="Assets\ShowBalance.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

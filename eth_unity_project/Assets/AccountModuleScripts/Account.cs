@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Nethereum.JsonRpc.UnityClient;
-using UnityEngine;
 
 public class Account {
     public void CreateAccount(string password, System.Action<string, string> callback)
