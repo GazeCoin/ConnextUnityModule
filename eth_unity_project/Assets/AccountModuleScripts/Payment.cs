@@ -4,6 +4,8 @@ using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Util;
 using UnityEngine;
 
+// System.Action<decimal> callback
+
 public class Payment
 {
     public IEnumerator MakePayment(

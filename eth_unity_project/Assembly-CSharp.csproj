@@ -59,14 +59,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\AccountModule.cs" />
     <Compile Include="Assets\AccountModuleScripts\Account.cs" />
     <Compile Include="Assets\AccountModuleScripts\Balance.cs" />
     <Compile Include="Assets\AccountModuleScripts\BlockChainController.cs" />
     <Compile Include="Assets\AccountModuleScripts\Payment.cs" />
-    <Compile Include="Assets\DecodeData.cs" />
-    <Compile Include="Assets\EtherTransfer.cs" />
-    <Compile Include="Assets\TokenDeployAndSend.cs" />
+    <Compile Include="Assets\PayButton.cs" />
+    <Compile Include="Assets\ShowBalance.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>/Users/nicktaras/Documents/github/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

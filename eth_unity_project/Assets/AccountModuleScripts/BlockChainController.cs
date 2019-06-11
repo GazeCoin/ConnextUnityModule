@@ -1,36 +1,71 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BlockChainController : MonoBehaviour {
-	void Start () {
+
+    public delegate void BalanceEvent(string currentBalance);
+    public static event BalanceEvent DispatchUpdateBalanceEvent;
+
+    void Start()
+    {
 
         Payment _payment = new Payment();
         Balance _balance = new Balance();
         Account _account = new Account();
 
-        // Payment example
-        StartCoroutine(_payment.MakePayment(
-           "HTTP://127.0.0.1:7545", // server
-           "750f470f331da664f26b3ca8e05f30b54e21abf0bdbb4706a1ce920c4fd147aa", // from priv
-           "0x179496CeA107ee91e8738724CE2931924A65E4eD", // from pub
-           "0x7B3150cC598FD65058044Dec34c9db545b8E1E90", // to
-           1.1m, // send amount
-           2 // gas
-        ));
+        string fromPriv = "5d41afd24b7794c5f0dd6d0e7f07d9891d193c5737f74619ad328795ee43e321";
+        string fromPub = "0xD2512Bc76c30cEA4E950212D192bf73294054937";
+        string toPub = "0x318555976f59537b47838E11d9F085E068714E50";
 
-        // Balance example
+        //// Payment example
+        StartCoroutine(_payment.MakePayment(
+            "HTTP://127.0.0.1:7545", // server
+            fromPriv, // from priv
+            fromPub, // from pub
+            toPub, // to
+            1.1m, // send amount
+            2 // gas
+        )); // DispatchUpdateBalanceEvent(balance + " ETH");
+
+        //StartCoroutine(_payment.MakePayment(
+        //    "HTTP://127.0.0.1:7545", // server
+        //    fromPriv, // from priv
+        //    fromPub, // from pub
+        //    toPub, // to
+        //    1.1m, // send amount
+        //    2 // gas
+        //), (balance) => {
+        //    DispatchUpdateBalanceEvent(balance); 
+        //}); 
+
+        // Check balance > If balance is greater than 0 > make payment > broadcast balance update
+        // StartCoroutine(_balance.GetBalance(
+        //    "HTTP://127.0.0.1:7545",
+        //    fromPub, (balance) => {
+        //    // DispatchUpdateBalanceEvent(balance + " ETH");
+        //    if (balance - X >= 0) {
+        //     StartCoroutine(_payment.MakePayment(
+        //       "HTTP://127.0.0.1:7545", // server
+        //       fromPriv, // from priv
+        //       fromPub, // from pub
+        //       toPub, // to
+        //       1.1m, // send amount
+        //       2 // gas
+        //     ));
+        //   }
+        // }));
+
+        //// Balance example
         StartCoroutine(_balance.GetBalance(
             "HTTP://127.0.0.1:7545", 
-            "0x179496CeA107ee91e8738724CE2931924A65E4eD", (balance) => {
-            Debug.Log(balance);
+            fromPub, (balance) => {
+            DispatchUpdateBalanceEvent(balance + " ETH");
         }));
 
-        // Create account example
-        _account.CreateAccount("strong_password", (address, encryptedJson) => {
-            Debug.Log(address);
-            Debug.Log(encryptedJson);
-        });
+        //// Create account example
+        //_account.CreateAccount("strong_password", (address, encryptedJson) => {
+        //    Debug.Log(address);
+        //    Debug.Log(encryptedJson);
+        //});
 
 	}
 }
