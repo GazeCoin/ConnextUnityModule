@@ -14,7 +14,7 @@ public class Balance {
         }
         else
         {
-            throw new System.InvalidOperationException("Get balance request failed");
+            throw new System.InvalidOperationException("Get balance request failed " + getBalanceRequest.Exception.Message);
         }
     }
 }

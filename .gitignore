@@ -1,1 +1,8 @@
 .DS_Store
+/backup_plugins
+/eth_unity_project/build
+/eth_unity_project/buildwin
+/eth_unity_project/Logs
+/eth_unity_project/obj/Debug
+/eth_unity_project/Temp
+/eth_unity_project/.vs

@@ -1,13 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BlockChainController : MonoBehaviour {
+
+    public Text AccountText;
+    public Nethereum.Web3.Accounts.Account account;
+
 	void Start () {
 
         Payment _payment = new Payment();
         Balance _balance = new Balance();
-        Account _account = new Account();
+        //Account _account = new Account();
+        HDWallet _wallet = new HDWallet();
+
+        _wallet.createWallet();
+        account = _wallet.getAccount();
+
+        AccountText.text = "Address: " + account.Address.ToString();
 
         // Payment example
         StartCoroutine(_payment.MakePayment(
@@ -23,14 +34,25 @@ public class BlockChainController : MonoBehaviour {
         StartCoroutine(_balance.GetBalance(
             "HTTP://127.0.0.1:7545", 
             "0x179496CeA107ee91e8738724CE2931924A65E4eD", (balance) => {
-            Debug.Log(balance);
+            Debug.Log("Balance is " + balance);
         }));
 
         // Create account example
-        _account.CreateAccount("strong_password", (address, encryptedJson) => {
-            Debug.Log(address);
-            Debug.Log(encryptedJson);
-        });
+        //_account.CreateAccount("strong_password", (address, encryptedJson) => {
+        //    Debug.Log(address);
+        //    Debug.Log(encryptedJson);
+        //});
 
 	}
+
+    void OnPreRender()
+    {
+        if (account.Address != null)
+        {
+            var txt = "Addr: " + account.Address.ToString();
+            AccountText.text = txt;
+        }
+        Debug.Log("pre render" + account.Address.ToString());
+    }
+
 }

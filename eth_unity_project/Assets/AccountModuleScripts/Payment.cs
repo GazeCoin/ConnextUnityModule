@@ -14,7 +14,7 @@ public class Payment
         decimal sendAmount,
         int gas
     ) {
-        var ethTransfer = new EthTransferUnityRequest(server, fromPrivateKey, fromPublicAddress);
+        var ethTransfer = new EthTransferUnityRequest(server, fromPrivateKey);
         yield return ethTransfer.TransferEther(toPublicAddress, sendAmount, gas);
         if (ethTransfer.Exception != null)
         {
