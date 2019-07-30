@@ -31,7 +31,7 @@ public class BlockChainController : MonoBehaviour {
         StartCoroutine(_balance.GetBalance(
             ethNodeUrl,
             account.Address, (balance) => {
-                balanceText.text = "Balance: " + balance;
+                //balanceText.text = "Balance: " + balance;
                 Debug.Log("Balance is " + balance);
         }));
 
@@ -43,12 +43,16 @@ public class BlockChainController : MonoBehaviour {
 
         //payBtnOnClick.AddListener(PayButton_OnClick);
         connext = new ConnextClient();
-        connext.Init();
+        connext.Init(); 
 
     }
 
     void OnPreRender()
     {
+        if (connext.getChannelState() != null)
+        {
+            balanceText.text = "Balance: " + connext.getChannelState().getBalanceTokenUser() + " GZE";
+        }
         if (account.Address != null)
         {
             //var txt = "Addr: " + account.Address.ToString().Substring(2);
