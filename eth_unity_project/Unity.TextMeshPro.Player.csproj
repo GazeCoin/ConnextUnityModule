@@ -305,9 +305,6 @@
     <Reference Include="System.IO.Pipes">
       <HintPath>Assets/Plugins/System.IO.Pipes.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http">
-      <HintPath>Assets/Plugins/System.Net.Http.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.WebSockets.Client">
       <HintPath>Assets/Plugins/System.Net.WebSockets.Client.dll</HintPath>
     </Reference>
@@ -1008,6 +1005,9 @@
     <Compile Include="Packages\com.unity.textmeshpro\Scripts\Runtime\TMPro_MeshUtilities.cs" />
     <Compile Include="Packages\com.unity.textmeshpro\Scripts\Runtime\TMPro_Private.cs" />
     <Compile Include="Packages\com.unity.textmeshpro\Scripts\Runtime\TMPro_UGUI_Private.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

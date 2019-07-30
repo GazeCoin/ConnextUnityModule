@@ -2,39 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class BlockChainController : MonoBehaviour {
 
     public Text AccountText;
+    public Text balanceText;
+    public delegate void ButtonClick();
     public Nethereum.Web3.Accounts.Account account;
+    private string ethNodeUrl = "HTTP://127.0.0.1:7545";
+    private static BlockChainController bcc;
+    ConnextClient connext;
+    private static HDWallet wallet;
 
-	void Start () {
+    void Start () {
+        bcc = this;
 
-        Payment _payment = new Payment();
         Balance _balance = new Balance();
         //Account _account = new Account();
-        HDWallet _wallet = new HDWallet();
+        wallet = new HDWallet();
 
-        _wallet.createWallet();
-        account = _wallet.getAccount();
+        wallet.createWallet();
+        account = HDWallet.getAccount();
 
         AccountText.text = "Address: " + account.Address.ToString();
 
-        // Payment example
-        StartCoroutine(_payment.MakePayment(
-           "HTTP://127.0.0.1:7545", // server
-           "750f470f331da664f26b3ca8e05f30b54e21abf0bdbb4706a1ce920c4fd147aa", // from priv
-           "0x179496CeA107ee91e8738724CE2931924A65E4eD", // from pub
-           "0x7B3150cC598FD65058044Dec34c9db545b8E1E90", // to
-           1.1m, // send amount
-           2 // gas
-        ));
-
         // Balance example
         StartCoroutine(_balance.GetBalance(
-            "HTTP://127.0.0.1:7545", 
-            "0x179496CeA107ee91e8738724CE2931924A65E4eD", (balance) => {
-            Debug.Log("Balance is " + balance);
+            ethNodeUrl,
+            account.Address, (balance) => {
+                balanceText.text = "Balance: " + balance;
+                Debug.Log("Balance is " + balance);
         }));
 
         // Create account example
@@ -43,16 +41,45 @@ public class BlockChainController : MonoBehaviour {
         //    Debug.Log(encryptedJson);
         //});
 
-	}
+        //payBtnOnClick.AddListener(PayButton_OnClick);
+        connext = new ConnextClient();
+        connext.Init();
+
+    }
 
     void OnPreRender()
     {
         if (account.Address != null)
         {
-            var txt = "Addr: " + account.Address.ToString();
-            AccountText.text = txt;
+            //var txt = "Addr: " + account.Address.ToString().Substring(2);
+            //AccountText.text = txt;
+            //Debug.Log("pre render" + txt);
         }
-        Debug.Log("pre render" + account.Address.ToString());
     }
 
+    public static BlockChainController getInstance()
+    {
+        return bcc;
+    }
+
+    public void PayButton_OnClick()
+    {
+        Debug.Log("Pay onClick");
+        Payment _payment = new Payment();
+        // Payment example
+        StartCoroutine(_payment.MakePayment(
+           ethNodeUrl, // server
+           "750f470f331da664f26b3ca8e05f30b54e21abf0bdbb4706a1ce920c4fd147aa", // from priv
+           account.Address, // from pub
+           "0x7B3150cC598FD65058044Dec34c9db545b8E1E90", // to
+           1.1m, // send amount
+           2 // gas
+        ));
+
+    }
+
+    public static HDWallet getWallet()
+    {
+        return wallet;
+    }
 }

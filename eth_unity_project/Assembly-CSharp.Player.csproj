@@ -347,9 +347,6 @@
     <Reference Include="System.IO.Pipes">
       <HintPath>Assets/Plugins/System.IO.Pipes.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http">
-      <HintPath>Assets/Plugins/System.Net.Http.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.WebSockets.Client">
       <HintPath>Assets/Plugins/System.Net.WebSockets.Client.dll</HintPath>
     </Reference>
@@ -998,11 +995,16 @@
     <Compile Include="Assets\AccountModuleScripts\Account.cs" />
     <Compile Include="Assets\AccountModuleScripts\Balance.cs" />
     <Compile Include="Assets\AccountModuleScripts\BlockChainController.cs" />
+    <Compile Include="Assets\AccountModuleScripts\ConnextClient.cs" />
     <Compile Include="Assets\AccountModuleScripts\HDWallet.cs" />
     <Compile Include="Assets\AccountModuleScripts\Payment.cs" />
+    <Compile Include="Assets\ButtonHandler.cs" />
     <Compile Include="Assets\DecodeData.cs" />
     <Compile Include="Assets\EtherTransfer.cs" />
     <Compile Include="Assets\TokenDeployAndSend.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -308,9 +308,6 @@
     <Reference Include="System.IO.Pipes">
       <HintPath>Assets/Plugins/System.IO.Pipes.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http">
-      <HintPath>Assets/Plugins/System.Net.Http.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.WebSockets.Client">
       <HintPath>Assets/Plugins/System.Net.WebSockets.Client.dll</HintPath>
     </Reference>
@@ -958,6 +955,9 @@
     <Compile Include="Packages\com.unity.xr.legacyinputhelpers\Runtime\ArmModels\ArmModel.cs" />
     <Compile Include="Packages\com.unity.xr.legacyinputhelpers\Runtime\ArmModels\SwingArmModel.cs" />
     <Compile Include="Packages\com.unity.xr.legacyinputhelpers\Runtime\ArmModels\TransitionArmModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

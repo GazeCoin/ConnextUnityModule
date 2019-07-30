@@ -66,29 +66,13 @@
     <Compile Include="Assets\AccountModuleScripts\Account.cs" />
     <Compile Include="Assets\AccountModuleScripts\Balance.cs" />
     <Compile Include="Assets\AccountModuleScripts\BlockChainController.cs" />
+    <Compile Include="Assets\AccountModuleScripts\ConnextClient.cs" />
     <Compile Include="Assets\AccountModuleScripts\HDWallet.cs" />
     <Compile Include="Assets\AccountModuleScripts\Payment.cs" />
+    <Compile Include="Assets\ButtonHandler.cs" />
     <Compile Include="Assets\DecodeData.cs" />
     <Compile Include="Assets\EtherTransfer.cs" />
     <Compile Include="Assets\TokenDeployAndSend.cs" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
-    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
@@ -391,9 +375,6 @@
     </Reference>
     <Reference Include="System.IO.Pipes">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/System.IO.Pipes.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http">
-      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.WebSockets.Client">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/System.Net.WebSockets.Client.dll</HintPath>
