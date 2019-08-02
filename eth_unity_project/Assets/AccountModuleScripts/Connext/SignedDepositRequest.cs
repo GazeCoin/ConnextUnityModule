@@ -2,10 +2,10 @@
 
 public class SignedDepositRequest
 {
-    public PaymentRequest payment;
+    public PurchasePayment.PaymentAmounts payment;
     public string sigUser;
 
-	public SignedDepositRequest(PaymentRequest pr)
+	public SignedDepositRequest(PurchasePayment.PaymentAmounts pr)
 	{
         payment = pr;
 	}
@@ -13,8 +13,8 @@ public class SignedDepositRequest
     public void sign()
     {
         // Convert amounts to byte array.
-        byte[] token = DecimalToBytes(payment.payments[0].amount.amountToken);
-        byte[] wei = DecimalToBytes(payment.payments[0].amount.amountToken);
+        byte[] token = DecimalToBytes(payment.amountToken);
+        byte[] wei = DecimalToBytes(payment.amountWei);
         // Put into a single array
         byte[] hashBytes = new byte[64];
         Array.Copy(token, 0, hashBytes, 0, 32); // 0-31

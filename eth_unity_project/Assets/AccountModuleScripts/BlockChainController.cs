@@ -10,10 +10,12 @@ public class BlockChainController : MonoBehaviour {
     public Text balanceText;
     public delegate void ButtonClick();
     public Nethereum.Web3.Accounts.Account account;
-    private string ethNodeUrl = "HTTP://127.0.0.1:7545";
+    private string ethNodeUrl = "https://rpc.gazecoin.xyz";
     private static BlockChainController bcc;
     ConnextClient connext;
     private static HDWallet wallet;
+    private decimal ethBalance;
+    private decimal tokenBalance;
 
     void Start () {
         bcc = this;
@@ -28,23 +30,21 @@ public class BlockChainController : MonoBehaviour {
         AccountText.text = "Address: " + account.Address.ToString();
 
         // Balance example
-        StartCoroutine(_balance.GetBalance(
+        StartCoroutine(_balance.PeriodicBalanceRequest(
             ethNodeUrl,
             account.Address, (balance) => {
                 //balanceText.text = "Balance: " + balance;
-                Debug.Log("Balance is " + balance);
+                ethBalance = balance;
+                Debug.Log("L1 balance is " + balance);
         }));
 
-        // Create account example
-        //_account.CreateAccount("strong_password", (address, encryptedJson) => {
-        //    Debug.Log(address);
-        //    Debug.Log(encryptedJson);
-        //});
-
-        //payBtnOnClick.AddListener(PayButton_OnClick);
         connext = new ConnextClient();
-        connext.Init(); 
+        connext.Init();
+    }
 
+    async void RequestDeposit()
+    {
+        await connext.RequestDeposit(0, 0.01m);
     }
 
     void OnPreRender()
@@ -68,6 +68,7 @@ public class BlockChainController : MonoBehaviour {
 
     public void PayButton_OnClick()
     {
+        /*
         Debug.Log("Pay onClick");
         Payment _payment = new Payment();
         // Payment example
@@ -79,7 +80,8 @@ public class BlockChainController : MonoBehaviour {
            1.1m, // send amount
            2 // gas
         ));
-
+    */
+        RequestDeposit();
     }
 
     public static HDWallet getWallet()

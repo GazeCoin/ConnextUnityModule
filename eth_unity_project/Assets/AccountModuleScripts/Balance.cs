@@ -3,6 +3,8 @@ using Nethereum.JsonRpc.UnityClient;
 using UnityEngine;
 
 public class Balance {
+    const int REPEAT_DURATION = 30; // seconds
+
     public IEnumerator GetBalance(string server, string address, System.Action<decimal> callback)
     {
         var getBalanceRequest = new EthGetBalanceUnityRequest(server);
@@ -16,5 +18,14 @@ public class Balance {
         {
             throw new System.InvalidOperationException("Get balance request failed " + getBalanceRequest.Exception.Message);
         }
+    }
+
+    public IEnumerator PeriodicBalanceRequest (string server, string address, System.Action<decimal> callback)
+    {
+        do
+        {
+            yield return new WaitForSeconds(REPEAT_DURATION);
+            yield return GetBalance(server, address, callback);
+        } while (true);
     }
 }

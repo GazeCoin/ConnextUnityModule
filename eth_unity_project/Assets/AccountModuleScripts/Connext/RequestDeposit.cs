@@ -7,7 +7,7 @@ public class RequestDeposit
     public int lastChanTx;
     public int lastThreadUpdateId;
     public string sigUser;
-    private PaymentRequest paymentRequest;
+    private PurchasePayment.PaymentAmounts paymentAmounts;
 
 	public RequestDeposit()
 	{
@@ -15,12 +15,12 @@ public class RequestDeposit
 
     // Takes PaymentRequest data and sets fields in this class.
     // ready for a request-deposit call.
-    public void setPaymentRequest(PaymentRequest pr)
+    public void setPaymentRequest(PurchasePayment.PaymentAmounts pr)
     {
-        paymentRequest = pr;
-        var amount = pr.payments[0].amount;
-        depositToken = amount.amountToken;
-        depositWei = amount.amountWei;
+        paymentAmounts = pr;
+        var amounts = paymentAmounts.amountToken;
+        depositToken = paymentAmounts.amountWei;
+        depositWei = paymentAmounts.amountWei;
 
         // Sign it 
         SignedDepositRequest sdr = new SignedDepositRequest(pr);
