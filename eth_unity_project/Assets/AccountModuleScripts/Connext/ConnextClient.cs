@@ -101,13 +101,15 @@ public class ConnextClient
         return channelState;
     }
 
+    public async Task RequestDeposit(BigInteger tokens, BigInteger wei)
+    {
+        await RequestDeposit((decimal)tokens, (decimal)wei);
+    }
+
     public async Task RequestDeposit(decimal tokens, decimal wei)
     {
-        PurchasePayment.PaymentAmounts amounts = new PurchasePayment.PaymentAmounts
-        {
-            amountToken = tokens,
-            amountWei = wei
-        };
+        PurchasePayment.PaymentAmounts amounts = new PurchasePayment.PaymentAmounts();
+        amounts.setAmounts(wei, tokens);
 
         RequestDeposit rd = new RequestDeposit();
         rd.setPaymentRequest(amounts);
@@ -121,12 +123,11 @@ public class ConnextClient
         HttpResponseMessage response = await client.SendAsync(request);
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception("Connext balance request failed." + response.ReasonPhrase);
+            throw new Exception("Connext deposit request failed." + response.ReasonPhrase);
         }
         var bal = await response.Content.ReadAsStringAsync();
         channelState = JsonConvert.DeserializeObject<ChannelState>(bal);
         Debug.Log("balance result: " + channelState.getBalanceEthHub());
-
     }
 
     class Nonce

@@ -44,7 +44,7 @@ public class BlockChainController : MonoBehaviour {
 
     async void RequestDeposit()
     {
-        await connext.RequestDeposit(0, 0.01m);
+        await connext.RequestDeposit(0, Nethereum.Web3.Web3.Convert.ToWei(0.01));
     }
 
     void OnPreRender()

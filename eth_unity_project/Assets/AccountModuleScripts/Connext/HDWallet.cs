@@ -67,18 +67,27 @@ public class HDWallet
     public static string sign(string message)
     {
         var byteArr = StringToBytes(message);
-        return sign(byteArr);
+        return Sign(byteArr);
     }
 
     // Sign an array of bytes
-    public static string sign(byte[] bytes)
+    public static string Sign(byte[] bytes)
     {
         var signer = new EthereumMessageSigner();
         var pk = getAccount().PrivateKey;
         var sig = signer.Sign(bytes, new EthECKey(pk));
         Debug.Log("signature: " + sig);
         return sig;
+    }
 
+    // Hash and Sign an array of bytes
+    public static string HashAndSign(byte[] bytes)
+    {
+        var signer = new EthereumMessageSigner();
+        var pk = getAccount().PrivateKey;
+        var sig = signer.HashAndSign(bytes, new EthECKey(pk));
+        Debug.Log("signature: " + sig);
+        return sig;
     }
 
     private static byte[] StringToBytes(string data)

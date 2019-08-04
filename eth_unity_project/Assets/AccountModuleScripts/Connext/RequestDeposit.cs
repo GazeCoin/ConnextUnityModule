@@ -2,8 +2,8 @@
 
 public class RequestDeposit
 {
-    public decimal depositToken;
-    public decimal depositWei;
+    public string depositToken;
+    public string depositWei;
     public int lastChanTx;
     public int lastThreadUpdateId;
     public string sigUser;
@@ -18,8 +18,7 @@ public class RequestDeposit
     public void setPaymentRequest(PurchasePayment.PaymentAmounts pr)
     {
         paymentAmounts = pr;
-        var amounts = paymentAmounts.amountToken;
-        depositToken = paymentAmounts.amountWei;
+        depositToken = paymentAmounts.amountToken;
         depositWei = paymentAmounts.amountWei;
 
         // Sign it 

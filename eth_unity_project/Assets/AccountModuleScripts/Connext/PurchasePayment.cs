@@ -12,8 +12,29 @@ public class PurchasePayment
 
     public class PaymentAmounts
     {
-        public decimal amountWei;
-        public decimal amountToken;
+        public string amountWei;
+        public string amountToken;
+        private decimal amountWeiDec;
+        private decimal amountTokenDec;
+
+        public void setAmounts(decimal wei, decimal token)
+        {
+            amountWeiDec = wei;
+            amountTokenDec = token;
+
+            this.amountWei = amountWeiDec.ToString();
+            this.amountToken = amountTokenDec.ToString();
+        }
+
+        public decimal getAmountWei()
+        {
+            return amountWeiDec;
+        }
+
+        public decimal getAmountToken()
+        {
+            return amountTokenDec;
+        }
     }
 
     public class Metadata
