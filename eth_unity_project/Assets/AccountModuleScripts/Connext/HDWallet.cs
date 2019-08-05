@@ -64,7 +64,7 @@ public class HDWallet
         return _wallet;
     }
 
-    public static string sign(string message)
+    public static string Sign(string message)
     {
         var byteArr = StringToBytes(message);
         return Sign(byteArr);

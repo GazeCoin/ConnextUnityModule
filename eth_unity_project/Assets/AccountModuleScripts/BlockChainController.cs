@@ -44,14 +44,14 @@ public class BlockChainController : MonoBehaviour {
 
     async void RequestDeposit()
     {
-        await connext.RequestDeposit(0, Nethereum.Web3.Web3.Convert.ToWei(0.01));
+        await connext.RequestDeposit(0, Nethereum.Web3.Web3.Convert.ToWei(0.005));
     }
 
     void OnPreRender()
     {
         if (connext.getChannelState() != null)
         {
-            balanceText.text = "Balance: " + connext.getChannelState().getBalanceTokenUser() + " GZE";
+            balanceText.text = "Balance: " + connext.getChannelState().balanceTokenUser + " GZE";
         }
         if (account.Address != null)
         {

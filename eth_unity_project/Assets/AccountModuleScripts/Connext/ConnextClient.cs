@@ -59,12 +59,15 @@ public class ConnextClient
 
         await FetchChannelState();
         channelTxCount = channelState.txCountChain;
+
+        //if (channelState.HasTxToSync())
+        //{
+            await HubSync();
+        //}
     }
 
     public async Task Authorisation()
     {
-        //var data = "";
-        //var content = new StringContent(data);
         var request = new HttpRequestMessage();
         Debug.Log("Requesting nonce for " + address);
         auth.AddAuthHeaders(request);
@@ -76,12 +79,11 @@ public class ConnextClient
             throw new Exception("Connext auth request failed." + response.ReasonPhrase);
         }
         var authJson = await response.Content.ReadAsStringAsync();
-        Nonce nonce = JsonConvert.DeserializeObject<Nonce>(authJson);
+        ConnextAuth.Nonce nonce = JsonConvert.DeserializeObject<ConnextAuth.Nonce>(authJson);
         auth.SetNonce(nonce.nonce);
         Debug.Log("auth nonce: " + nonce.nonce);
         // Set auth headers for future use.
         auth.AddAuthHeaders(client);
-
     }
 
     public async Task FetchChannelState()
@@ -92,6 +94,7 @@ public class ConnextClient
             throw new Exception("Connext balance request failed." + response.ReasonPhrase);
         }
         var bal = await response.Content.ReadAsStringAsync();
+        Debug.Log("channel state: " + bal);
         channelState = JsonConvert.DeserializeObject<ChannelState>(bal);
         Debug.Log("balance result: " + channelState.getBalanceEthHub());
     }
@@ -113,7 +116,7 @@ public class ConnextClient
 
         RequestDeposit rd = new RequestDeposit();
         rd.setPaymentRequest(amounts);
-        rd.lastChanTx = ++channelTxCount;
+        rd.lastChanTx = channelTxCount;
         rd.lastThreadUpdateId = channelThreadCount;
         string jsonRequest = JsonConvert.SerializeObject(rd);
         Debug.Log("Deposit Request:" + jsonRequest);
@@ -130,51 +133,49 @@ public class ConnextClient
         Debug.Log("balance result: " + channelState.getBalanceEthHub());
     }
 
-    class Nonce
+    public async Task HubSync()
     {
-        public string nonce;
+        HttpResponseMessage response = await client.GetAsync(
+            String.Format("/channel/{0}/sync?lastChanTx={1}&lastThreadUpdateId={2}", address, channelTxCount, channelThreadCount));
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Connext sync request failed." + response.ReasonPhrase);
+        }
+        var sync = await response.Content.ReadAsStringAsync();
+        var syncResult = JsonConvert.DeserializeObject<SyncResult>(sync);
+        Debug.Log("sync result: " + sync);
+
+        // TODO: handle states other than CS_OPEN
+        if ("CS_OPEN".Equals(syncResult.status))
+        {
+            if (syncResult.updates.Length > 0)
+            {
+                SyncResult.UpdateDetails update = syncResult.updates[0].update;
+                if ("ProposePendingDeposit".Equals(update.reason))
+                {
+                    // TODO validate args signature
+                    // Generate new state
+                    ChannelState newState = channelState.Clone();
+                    newState.pendingDepositTokenHub = update.args.depositTokenHub;
+                    newState.pendingDepositTokenUser = update.args.depositTokenUser;
+                    newState.pendingDepositWeiHub = update.args.depositWeiHub;
+                    newState.pendingDepositWeiUser = update.args.depositWeiUser;
+                    newState.recipient = channelState.user;
+                    newState.timeout = update.args.timeout.ToString(); // TODO calculate this; shouuld it be long in ChannelState?
+                    newState.txCountChain++;
+                    newState.txCountGlobal++;
+
+                    // Sign state update
+                    var hash = createChannelStateHash(newState);
+
+                    // Get gas price
+                    // Generate token allowance and approve txs
+                    // Invoke connext contract UserAUthorizedUpdate
+                }
+                // TODO: handle other reason types
+                //TODO: handle > 1 update
+            }
+        }
     }
-
-    class ConnextAuth
-    {
-        public string address;
-        private string nonce;
-        private string signature;
-
-        public void AddAuthHeaders(HttpRequestMessage req)
-        {
-            Debug.Log("setting header. sig: " + signature);
-            var headers = req.Headers;
-            headers.Add("x-address", address);
-            headers.Add("x-nonce", nonce);
-            headers.Add("x-signature", signature);
-        }
-        public void AddAuthHeaders(HttpWebRequest req)
-        {
-            Debug.Log("setting header. sig: " + signature);
-            var headers = req.Headers;
-            headers.Add("x-address", address);
-            headers.Add("x-nonce", nonce);
-            headers.Add("x-signature", signature);
-        }
-
-        public void AddAuthHeaders(HttpClient client)
-        {
-            Debug.Log("setting header. sig: " + signature);
-            var headers = client.DefaultRequestHeaders;
-            headers.Add("x-address", address);
-            headers.Add("x-nonce", nonce);
-            headers.Add("x-signature", signature);
-        }
-
-
-        // Set nonce and sign it to get signature.
-        public void SetNonce(string nonce)
-        {
-            this.nonce = nonce;
-            this.signature = HDWallet.sign(nonce);
-        }
-    }
-
 
 }

@@ -43,5 +43,38 @@ public class ChannelState
     {
         return Web3.Convert.FromWei(BigInteger.Parse(balanceTokenUser));
     }
+
+    public void setProposedDepositDetails()
+    {
+
+    }
+
+    public ChannelState Clone()
+    {
+        ChannelState newCS = new ChannelState();
+        newCS.contractAddress = contractAddress;
+        newCS.user = user;
+        newCS.recipient = recipient;
+        newCS.balanceWeiHub = balanceWeiHub;
+        newCS.balanceWeiUser = balanceWeiUser;
+        newCS.balanceTokenHub = balanceTokenHub;
+        newCS.balanceTokenUser = balanceTokenUser;
+        newCS.pendingDepositWeiHub = pendingDepositWeiHub;
+        newCS.pendingDepositWeiUser = pendingDepositWeiUser;
+        newCS.pendingDepositTokenHub = pendingDepositTokenHub;
+        newCS.pendingDepositTokenUser = pendingDepositTokenUser;
+        newCS.pendingWithdrawalWeiHub = pendingWithdrawalWeiHub;
+        newCS.pendingWithdrawalWeiUser = pendingWithdrawalWeiUser;
+        newCS.pendingWithdrawalTokenHub = pendingWithdrawalTokenHub;
+        newCS.pendingWithdrawalTokenUser = pendingWithdrawalTokenUser;
+        newCS.threadCount = threadCount;
+        newCS.threadRoot = threadRoot;
+        newCS.timeout = timeout;
+        newCS.txCountChain = txCountChain;
+        newCS.txCountGlobal = txCountGlobal;
+        newCS.sigHub = sigHub;
+        newCS.sigUser = sigUser;
+        return newCS;
+    }
 }
 
