@@ -76,5 +76,32 @@ public class ChannelState
         newCS.sigUser = sigUser;
         return newCS;
     }
+
+    public byte[] getHash()
+    {
+        Utils.ByteArrayBuilder bab = new Utils.ByteArrayBuilder();
+        bab.AddAddress(contractAddress);
+        bab.AddAddress(user);
+        bab.AddAddress(recipient);
+        bab.AddUInt256(balanceWeiHub);
+        bab.AddUInt256(balanceWeiUser);
+        bab.AddUInt256(balanceTokenHub);
+        bab.AddUInt256(balanceTokenUser);
+        bab.AddUInt256(pendingDepositWeiHub);
+        bab.AddUInt256(pendingWithdrawalWeiHub);
+        bab.AddUInt256(pendingDepositWeiUser);
+        bab.AddUInt256(pendingWithdrawalWeiUser);
+        bab.AddUInt256(pendingDepositTokenHub);
+        bab.AddUInt256(pendingWithdrawalTokenHub);
+        bab.AddUInt256(pendingDepositTokenUser);
+        bab.AddUInt256(pendingWithdrawalTokenUser);
+        bab.AddUInt256(txCountGlobal);
+        bab.AddUInt256(txCountChain);
+        bab.AddBytes32(threadRoot);
+        bab.AddUInt256(threadCount);
+        bab.AddUInt256(timeout);
+
+        return bab.GetByteArray();
+    }
 }
 

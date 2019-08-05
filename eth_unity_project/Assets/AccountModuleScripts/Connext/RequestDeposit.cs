@@ -23,7 +23,7 @@ public class RequestDeposit
 
         // Sign it 
         SignedDepositRequest sdr = new SignedDepositRequest(pr);
-        sdr.sign();
+        sdr.Sign();
         sigUser = sdr.sigUser;
     }
 

@@ -10,37 +10,14 @@ public class SignedDepositRequest
         payment = pr;
 	}
 
-    public void sign()
+    public void Sign()
     {
         // Convert amounts to byte array.
-        byte[] token = DecimalToBytes(payment.getAmountToken());
-        byte[] wei = DecimalToBytes(payment.getAmountWei());
-        // Put into a single array
-        byte[] hashBytes = new byte[64];
-        Array.Copy(token, 0, hashBytes, 0, 32); // 0-31
-        Array.Copy(wei, 0, hashBytes, 32, 32); // 32-63
+        Utils.ByteArrayBuilder bab = new Utils.ByteArrayBuilder();
+        bab.AddUInt256(payment.getAmountToken());
+        bab.AddUInt256(payment.getAmountWei());
         // Now hash it
-        sigUser = HDWallet.HashAndSign(hashBytes);
-    }
-
-    // Return byte[32] representation of a decimal
-    public static byte[] DecimalToBytes(decimal dec)
-    {
-        // decimal = 16 bytes. uint256 = 32 bytes.
-        // Set most significant bytes to 0
-        Int32[] bits = decimal.GetBits(dec); // 4 x 4 bytes little-endian
-        // TODO: check that 1st 2 bytes are 0 (sign, exponent)
-        //byte[] bytes32 = BitConverter.GetBytes(n);
-        byte[] bytes32 = new byte[32]; // 32 bytes = 256 bits
-        Array.Clear(bytes32, 0, 32);
-        for (int i = 0; i < 4; i++)
-        {
-            byte[] intBits = BitConverter.GetBytes(bits[i]); // Each int32 => 4 x 8-bit bytes, big-endian
-            Array.Reverse(intBits);
-            Array.Copy(intBits, 0, bytes32, (3-i) * 4 + 16, 4); // Copy all 4 bytes into reverse positions
-        } 
-        //Array.Reverse(bytes32);
-        return bytes32;
+        sigUser = HDWallet.HashAndSign(bab.GetByteArray());
     }
 
 }
