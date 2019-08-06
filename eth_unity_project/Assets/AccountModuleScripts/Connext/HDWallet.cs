@@ -13,9 +13,9 @@ using System.Runtime.Remoting.Metadata.W3cXsd2001;
 public class HDWallet
 {
     private static Wallet _wallet;
-    private string keystore = Path.Combine(Application.persistentDataPath, "keystore.dat");
+    private readonly string keystore = Path.Combine(Application.persistentDataPath, "keystore.dat");
 
-    public void createWallet()
+    public void CreateWallet()
     {
         Mnemonic words;
         if (!File.Exists(keystore))

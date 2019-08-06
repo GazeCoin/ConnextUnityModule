@@ -10,6 +10,7 @@ using Nethereum.Web3;
 using System.Numerics;
 using System.Net;
 using UnityEngine.Networking;
+using Nethereum.Contracts;
 
 public class ConnextClient
 {
@@ -31,6 +32,13 @@ public class ConnextClient
     private ChannelState channelState;
     private static int channelTxCount;
     private static int channelThreadCount;
+    private Nethereum.Web3.Accounts.Account account;
+    private ERC20Token token;
+
+    public ConnextClient(Nethereum.Web3.Accounts.Account account)
+    {
+        this.account = account;
+    }
 
     public async void Init()
     {
@@ -54,16 +62,16 @@ public class ConnextClient
         Debug.Log("connext config: " + configJson);
         config = JsonConvert.DeserializeObject<Config>(configJson);
 
+        // Get ERC20 token contract instance
+        token = new ERC20Token(account, config.tokenAddress);
+
         // Auth sequence
         await Authorisation();
 
         await FetchChannelState();
         channelTxCount = channelState.txCountChain;
 
-        //if (channelState.HasTxToSync())
-        //{
-            await HubSync();
-        //}
+        await HubSync();
     }
 
     public async Task Authorisation()
@@ -153,29 +161,47 @@ public class ConnextClient
                 SyncResult.UpdateDetails update = syncResult.updates[0].update;
                 if ("ProposePendingDeposit".Equals(update.reason))
                 {
-                    // TODO validate args signature
-                    // Generate new state
-                    ChannelState newState = channelState.Clone();
-                    newState.pendingDepositTokenHub = update.args.depositTokenHub;
-                    newState.pendingDepositTokenUser = update.args.depositTokenUser;
-                    newState.pendingDepositWeiHub = update.args.depositWeiHub;
-                    newState.pendingDepositWeiUser = update.args.depositWeiUser;
-                    newState.recipient = channelState.user;
-                    newState.timeout = update.args.timeout.ToString(); // TODO calculate this; shouuld it be long in ChannelState?
-                    newState.txCountChain++;
-                    newState.txCountGlobal++;
-
-                    // Sign state update
-                    var hash = createChannelStateHash(newState);
-
-                    // Get gas price
-                    // Generate token allowance and approve txs
-                    // Invoke connext contract UserAUthorizedUpdate
+                    ProposePendingDeposit(update);
                 }
                 // TODO: handle other reason types
                 //TODO: handle > 1 update
             }
         }
+    }
+
+    private void ProposePendingDeposit(SyncResult.UpdateDetails update)
+    {
+        // TODO validate args signature
+        // Generate new state
+        ChannelState newState = channelState.Clone();
+        newState.pendingDepositTokenHub = update.args.depositTokenHub;
+        newState.pendingDepositTokenUser = update.args.depositTokenUser;
+        newState.pendingDepositWeiHub = update.args.depositWeiHub;
+        newState.pendingDepositWeiUser = update.args.depositWeiUser;
+        newState.recipient = channelState.user;
+        newState.timeout = update.args.timeout.ToString(); // TODO calculate this; shouuld it be long in ChannelState?
+        newState.txCountChain++;
+        newState.txCountGlobal++;
+
+        // Sign state update
+        newState.sigUser = SignChannelStateHash(newState);
+        Debug.Log("signed channel state update: " + newState.sigUser);
+        newState.sigHub = update.sigHub;
+        //maxTimeout = getUpdateReqestTimeout(); TODO
+
+        // Get gas price
+        var gasPrice = Web3.Convert.ToWei(0.001); //TODO - should be dynamic
+
+        // Generate token allowance and approve txs
+        Contract contract = token.getContract();
+
+        // Invoke connext contract UserAUthorizedUpdate
+
+    }
+
+    private string SignChannelStateHash(ChannelState state)
+    {
+        return HDWallet.HashAndSign(state.getBytes());
     }
 
 }

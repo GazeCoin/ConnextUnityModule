@@ -24,7 +24,7 @@ public class BlockChainController : MonoBehaviour {
         //Account _account = new Account();
         wallet = new HDWallet();
 
-        wallet.createWallet();
+        wallet.CreateWallet();
         account = HDWallet.getAccount();
 
         AccountText.text = "Address: " + account.Address.ToString();
@@ -38,7 +38,7 @@ public class BlockChainController : MonoBehaviour {
                 Debug.Log("L1 balance is " + balance);
         }));
 
-        connext = new ConnextClient();
+        connext = new ConnextClient(account);
         connext.Init();
     }
 

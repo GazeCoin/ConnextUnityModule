@@ -10,7 +10,7 @@ public class Utils
 
     public static byte[] AddressToBytes(string address)
     {
-        if (!address.StartsWith("0x") || address.Length == 42)
+        if (!address.StartsWith("0x") || address.Length != 42)
         {
             throw new Exception("Expected address as string beginning with 0x");
         }
@@ -27,13 +27,14 @@ public class Utils
     }
     public static byte[] StringToBytes32(string hexString)
     {
+        byte[] bytes = new byte[32];
+        if (hexString == null) return bytes;
         if (!hexString.StartsWith("0x"))
         {
             throw new Exception("Expected string beginning with 0x");
         }
         // Convert string to hex, as bytes.
         NumberStyles style = NumberStyles.AllowHexSpecifier;
-        byte[] bytes = new byte[32];
         int i = 0;
         for (int pos = 2; pos < hexString.Length; pos += 2)
         {
@@ -75,6 +76,7 @@ public class Utils
 
         private void InsertBytes(byte[] bytes)
         {
+            Array.Resize(ref byteArray, nextPosition + bytes.Length);
             Array.Copy(bytes, 0, byteArray, nextPosition, bytes.Length);
             nextPosition += bytes.Length;
         }
@@ -95,9 +97,10 @@ public class Utils
             AddUInt256(Decimal.Parse(num));
         }
 
-        public void AddBytes32(decimal num)
+        public void AddBytes32(string hexString)
         {
-            
+            byte[] bytes = StringToBytes32(hexString);
+            InsertBytes(bytes);
         }
 
     }

@@ -77,7 +77,7 @@ public class ChannelState
         return newCS;
     }
 
-    public byte[] getHash()
+    public byte[] getBytes()
     {
         Utils.ByteArrayBuilder bab = new Utils.ByteArrayBuilder();
         bab.AddAddress(contractAddress);
