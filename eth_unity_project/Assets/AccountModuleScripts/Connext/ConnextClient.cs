@@ -31,8 +31,8 @@ public class ConnextClient
     private static Wallet wallet;
     private ConnextAuth auth;
     private ChannelState channelState;
-    private static int channelTxCount;
-    private static int channelThreadCount;
+    private static uint channelTxCount;
+    private static uint channelThreadCount;
     private Nethereum.Web3.Accounts.Account account;
     private ERC20Token token;
     private ChannelManagerContract channelManager;
@@ -41,6 +41,7 @@ public class ConnextClient
     public ConnextClient(Web3 web3, Nethereum.Web3.Accounts.Account account)
     {
         this.account = account;
+        this.web3 = web3;
     }
 
     public async void Init()
@@ -127,7 +128,7 @@ public class ConnextClient
         amounts.setAmounts(wei, tokens);
 
         RequestDeposit rd = new RequestDeposit();
-        rd.setPaymentRequest(amounts);
+        rd.SetPaymentRequest(amounts);
         rd.lastChanTx = channelTxCount;
         rd.lastThreadUpdateId = channelThreadCount;
         string jsonRequest = JsonConvert.SerializeObject(rd);
@@ -210,15 +211,18 @@ public class ConnextClient
         Debug.Log("Approve request completed. " + receipt);
 
         // Invoke connext contract UserAuthorizedUpdate
-        Contract channelManagerInst = channelManager.getContract();
-        Function userAuthorizedUpdate = channelManager.GetUserAuthorizedUpdateFunction();
-        gasEstimate = await userAuthorizedUpdate.EstimateGasAsync(config.contractAddress, update.args.depositTokenUser);
-        txHash = await approve.SendTransactionAsync(account.Address, gasEstimate, gasPrice, null,
-            new[] { newState });
+        //Contract channelManagerInst = channelManager.getContract();
+        //Function userAuthorizedUpdate = channelManager.GetUserAuthorizedUpdateFunction();
+        //gasEstimate = await userAuthorizedUpdate.EstimateGasAsync(config.contractAddress, update.args.depositTokenUser);
+        //txHash = await approve.SendTransactionAsync(account.Address, gasEstimate, gasPrice, null,
+        //    new[] { newState });
 
-        Debug.Log("Deposit requested from channelManager contract. " + txHash);
 
- 
+        var updateHandler = web3.Eth.GetContractTransactionHandler<ChannelManagerContract.UserAuthorizedUpdateFunction>();
+        ChannelManagerContract.UserAuthorizedUpdateFunction fm = (ChannelManagerContract.UserAuthorizedUpdateFunction)newState.UserAuthorizedUpdateFunction();
+        var txReceipt = await updateHandler.SendRequestAndWaitForReceiptAsync(config.contractAddress, fm);
+        Debug.Log("Deposit requested from channelManager contract. " + txReceipt);
+
     }
 
     private string SignChannelStateHash(ChannelState state)
