@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Numerics;
 using System.Threading.Tasks;
+using Nethereum.ABI.FunctionEncoding.Attributes;
 using Nethereum.Contracts;
 using Nethereum.Web3;
 using Nethereum.Web3.Accounts;
@@ -1168,7 +1170,7 @@ public class ChannelManagerContract
     private Contract contractInstance;
     private string contractAddress;
 
-	public ERC20Token(Nethereum.Web3.Accounts.Account account, string contractAddress)
+	public ChannelManagerContract(Nethereum.Web3.Accounts.Account account, string contractAddress)
 	{
         web3 = new Web3(account);
         this.contractAddress = contractAddress;
@@ -1184,7 +1186,7 @@ public class ChannelManagerContract
         return contractInstance;
     }
 
-    public Function UserAuthorizedUpdateFunction()
+    public Function GetUserAuthorizedUpdateFunction()
     {
         return contractInstance.GetFunction("userAuthorizedUpdate");
     }
@@ -1192,5 +1194,30 @@ public class ChannelManagerContract
     public Function GetChannelDetailsFunction()
     {
         return contractInstance.GetFunction("getChannelDetails");
+    }
+
+    [Function("userAuthorizedUpdate")]
+    public class UserAuthorizedUpdateFunction : FunctionMessage
+    {
+        [Parameter("address", "recipient")]
+        public string Recipient { get; set; }
+        [Parameter("uint256[2]", "weiBalances")]
+        public BigInteger[] WeiBalances { get; set; } // [hub, user]
+        [Parameter("uint256[2]", "tokenBalances")]
+        public BigInteger[] TokenBalances { get; set; } // [hub, user]
+        [Parameter("uint256[4]", "pendingWeiUpdates")]
+        public BigInteger[] PendingWeiUpdates { get; set; } // [hubDeposit, hubWithdrawal, userDeposit, userWithdrawal]
+        [Parameter("uint256[4]", "pendingTokenUpdates")]
+        public BigInteger[] PendingTokenUpdates { get; set; } // [hubDeposit, hubWithdrawal, userDeposit, userWithdrawal]
+        [Parameter("uint256[2]", "txCount")]
+        public uint[] TxCount { get; set; } // persisted onchain even when empty
+        [Parameter("bytes32", "threadRoot")]
+        public string ThreadRoot { get; set; }
+        [Parameter("uint256", "threadCount")]
+        public uint ThreadCount { get; set; }
+        [Parameter("uint256", "timeout")]
+        public uint Timeout { get; set; }
+        [Parameter("string", "sigHub")]
+        public string SigHub { get; set; }
     }
 }

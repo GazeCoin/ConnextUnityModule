@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using Nethereum.Web3;
 
 public class BlockChainController : MonoBehaviour {
 
@@ -16,9 +17,12 @@ public class BlockChainController : MonoBehaviour {
     private static HDWallet wallet;
     private decimal ethBalance;
     private decimal tokenBalance;
+    private Web3 web3;
 
     void Start () {
         bcc = this;
+
+        web3 = new Web3(ethNodeUrl);
 
         Balance _balance = new Balance();
         //Account _account = new Account();
@@ -38,7 +42,7 @@ public class BlockChainController : MonoBehaviour {
                 Debug.Log("L1 balance is " + balance);
         }));
 
-        connext = new ConnextClient(account);
+        connext = new ConnextClient(web3, account);
         connext.Init();
     }
 

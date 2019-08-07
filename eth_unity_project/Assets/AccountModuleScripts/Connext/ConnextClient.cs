@@ -11,6 +11,7 @@ using System.Numerics;
 using System.Net;
 using UnityEngine.Networking;
 using Nethereum.Contracts;
+using Nethereum.RPC.Eth.DTOs;
 
 public class ConnextClient
 {
@@ -34,8 +35,10 @@ public class ConnextClient
     private static int channelThreadCount;
     private Nethereum.Web3.Accounts.Account account;
     private ERC20Token token;
+    private ChannelManagerContract channelManager;
+    private Web3 web3;
 
-    public ConnextClient(Nethereum.Web3.Accounts.Account account)
+    public ConnextClient(Web3 web3, Nethereum.Web3.Accounts.Account account)
     {
         this.account = account;
     }
@@ -64,6 +67,7 @@ public class ConnextClient
 
         // Get ERC20 token contract instance
         token = new ERC20Token(account, config.tokenAddress);
+        channelManager = new ChannelManagerContract(account, config.contractAddress);
 
         // Auth sequence
         await Authorisation();
@@ -169,7 +173,7 @@ public class ConnextClient
         }
     }
 
-    private void ProposePendingDeposit(SyncResult.UpdateDetails update)
+    private async void ProposePendingDeposit(SyncResult.UpdateDetails update)
     {
         // TODO validate args signature
         // Generate new state
@@ -193,10 +197,28 @@ public class ConnextClient
         var gasPrice = Web3.Convert.ToWei(0.001); //TODO - should be dynamic
 
         // Generate token allowance and approve txs
-        Contract contract = token.getContract();
+        Contract tokenContract = token.getContract();
+        Function approve = token.ApproveFunction();
+        BigInteger gasEstimate = await approve.EstimateGasAsync(config.contractAddress, update.args.depositTokenUser);
+        var txHash = await approve.SendTransactionAsync(account.Address, gasEstimate, gasPrice, null, 
+            new[]{ config.contractAddress, update.args.depositTokenUser});
+        TransactionReceipt receipt;
+        do
+        {
+            receipt = await web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(txHash);
+        } while (receipt == null);
+        Debug.Log("Approve request completed. " + receipt);
 
-        // Invoke connext contract UserAUthorizedUpdate
+        // Invoke connext contract UserAuthorizedUpdate
+        Contract channelManagerInst = channelManager.getContract();
+        Function userAuthorizedUpdate = channelManager.GetUserAuthorizedUpdateFunction();
+        gasEstimate = await userAuthorizedUpdate.EstimateGasAsync(config.contractAddress, update.args.depositTokenUser);
+        txHash = await approve.SendTransactionAsync(account.Address, gasEstimate, gasPrice, null,
+            new[] { newState });
 
+        Debug.Log("Deposit requested from channelManager contract. " + txHash);
+
+ 
     }
 
     private string SignChannelStateHash(ChannelState state)

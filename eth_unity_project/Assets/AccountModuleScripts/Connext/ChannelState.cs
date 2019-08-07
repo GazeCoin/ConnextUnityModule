@@ -1,6 +1,7 @@
 ﻿using System;
 using Nethereum.Web3;
 using System.Numerics;
+using Nethereum.Contracts;
 
 public class ChannelState
 {
@@ -22,8 +23,8 @@ public class ChannelState
     public string threadCount;
     public string threadRoot;
     public string timeout;
-    public int txCountChain;
-    public int txCountGlobal;
+    public uint txCountChain;
+    public uint txCountGlobal;
     public string sigHub;
     public string sigUser;
 
@@ -102,6 +103,37 @@ public class ChannelState
         bab.AddUInt256(timeout);
 
         return bab.GetByteArray();
+    }
+
+    public FunctionMessage UserAuthorizedUpdateFunction()
+    {
+        return new ChannelManagerContract.UserAuthorizedUpdateFunction()
+        {
+            Recipient       = recipient,
+            WeiBalances     = new[] {
+                BigInteger.Parse(balanceWeiHub),
+                BigInteger.Parse(balanceWeiUser)
+            },
+            TokenBalances   = new[] {
+                BigInteger.Parse(balanceTokenHub),
+                BigInteger.Parse(balanceTokenUser)
+            },
+            PendingWeiUpdates = new[] {
+                BigInteger.Parse(pendingDepositWeiHub),
+                BigInteger.Parse(pendingWithdrawalWeiHub),
+                BigInteger.Parse(pendingDepositWeiUser),
+                BigInteger.Parse(pendingWithdrawalWeiUser), },
+            PendingTokenUpdates = new[] {
+                BigInteger.Parse(pendingDepositTokenHub),
+                BigInteger.Parse(pendingWithdrawalTokenHub),
+                BigInteger.Parse(pendingDepositTokenUser),
+                BigInteger.Parse(pendingWithdrawalTokenUser), },
+            TxCount         = new[] {txCountGlobal, txCountChain},
+            ThreadRoot      = this.threadRoot,
+            ThreadCount     = UInt16.Parse(this.threadCount),
+            Timeout         = UInt32.Parse(this.timeout),
+            SigHub          = sigHub
+        };
     }
 }
 
