@@ -11,7 +11,8 @@ public class BlockChainController : MonoBehaviour {
     public Text balanceText;
     public delegate void ButtonClick();
     public Nethereum.Web3.Accounts.Account account;
-    private string ethNodeUrl = "https://eth-ropsten.alchemyapi.io/jsonrpc/HxEg1dDqvI297deLt3jVNowBPYWWlZLo"; //https://rpc.gazecoin.xyz";
+    //private string ethNodeUrl = "https://eth-ropsten.alchemyapi.io/jsonrpc/HxEg1dDqvI297deLt3jVNowBPYWWlZLo"; 
+    private string ethNodeUrl = "https://rpc.gazecoin.xyz";
     private static BlockChainController bcc;
     ConnextClient connext;
     private static HDWallet wallet;
@@ -42,7 +43,7 @@ public class BlockChainController : MonoBehaviour {
                 Debug.Log("L1 balance is " + balance);
         }));
 
-        connext = new ConnextClient(web3, account);
+        connext = new ConnextClient(web3, account, ethNodeUrl);
         connext.Init();
     }
 

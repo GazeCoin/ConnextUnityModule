@@ -956,9 +956,6 @@
     <Compile Include="Packages\com.unity.xr.legacyinputhelpers\Runtime\ArmModels\SwingArmModel.cs" />
     <Compile Include="Packages\com.unity.xr.legacyinputhelpers\Runtime\ArmModels\TransitionArmModel.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>

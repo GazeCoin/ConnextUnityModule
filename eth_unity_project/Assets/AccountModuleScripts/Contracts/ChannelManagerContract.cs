@@ -1170,9 +1170,9 @@ public class ChannelManagerContract
     private Contract contractInstance;
     private string contractAddress;
 
-	public ChannelManagerContract(Nethereum.Web3.Accounts.Account account, string contractAddress)
+	public ChannelManagerContract(Nethereum.Web3.Accounts.Account account, string contractAddress, string url)
 	{
-        web3 = new Web3(account);
+        web3 = new Web3(account, url);
         this.contractAddress = contractAddress;
 	}
 

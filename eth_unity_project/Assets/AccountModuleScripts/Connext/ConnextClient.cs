@@ -12,6 +12,7 @@ using System.Net;
 using UnityEngine.Networking;
 using Nethereum.Contracts;
 using Nethereum.RPC.Eth.DTOs;
+using Nethereum.StandardTokenEIP20;
 
 public class ConnextClient
 {
@@ -37,11 +38,13 @@ public class ConnextClient
     private ERC20Token token;
     private ChannelManagerContract channelManager;
     private Web3 web3;
+    private string ethNodeUrl;
 
-    public ConnextClient(Web3 web3, Nethereum.Web3.Accounts.Account account)
+    public ConnextClient(Web3 web3, Nethereum.Web3.Accounts.Account account, string url)
     {
         this.account = account;
         this.web3 = web3;
+        this.ethNodeUrl = url;
     }
 
     public async void Init()
@@ -67,8 +70,8 @@ public class ConnextClient
         config = JsonConvert.DeserializeObject<Config>(configJson);
 
         // Get ERC20 token contract instance
-        token = new ERC20Token(account, config.tokenAddress);
-        channelManager = new ChannelManagerContract(account, config.contractAddress);
+        token = new ERC20Token(account, config.tokenAddress, ethNodeUrl);
+        channelManager = new ChannelManagerContract(account, config.contractAddress, ethNodeUrl);
 
         // Auth sequence
         await Authorisation();
@@ -198,31 +201,15 @@ public class ConnextClient
         var gasPrice = Web3.Convert.ToWei(0.001); //TODO - should be dynamic
 
         // Generate token allowance and approve txs
-        Contract tokenContract = token.getContract();
-        Function approve = token.ApproveFunction();
-        BigInteger gasEstimate = await approve.EstimateGasAsync(config.contractAddress, update.args.depositTokenUser);
-        var txHash = await approve.SendTransactionAsync(account.Address, gasEstimate, gasPrice, null, 
-            new[]{ config.contractAddress, update.args.depositTokenUser});
-        TransactionReceipt receipt;
-        do
-        {
-            receipt = await web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(txHash);
-        } while (receipt == null);
+        var tokenService = new Nethereum.StandardTokenEIP20.StandardTokenService(web3, config.tokenAddress);
+        var receipt = await tokenService.ApproveRequestAndWaitForReceiptAsync(config.contractAddress, UInt32.Parse(update.args.depositTokenUser));
         Debug.Log("Approve request completed. " + receipt);
 
         // Invoke connext contract UserAuthorizedUpdate
-        //Contract channelManagerInst = channelManager.getContract();
-        //Function userAuthorizedUpdate = channelManager.GetUserAuthorizedUpdateFunction();
-        //gasEstimate = await userAuthorizedUpdate.EstimateGasAsync(config.contractAddress, update.args.depositTokenUser);
-        //txHash = await approve.SendTransactionAsync(account.Address, gasEstimate, gasPrice, null,
-        //    new[] { newState });
-
-
         var updateHandler = web3.Eth.GetContractTransactionHandler<ChannelManagerContract.UserAuthorizedUpdateFunction>();
         ChannelManagerContract.UserAuthorizedUpdateFunction fm = (ChannelManagerContract.UserAuthorizedUpdateFunction)newState.UserAuthorizedUpdateFunction();
         var txReceipt = await updateHandler.SendRequestAndWaitForReceiptAsync(config.contractAddress, fm);
         Debug.Log("Deposit requested from channelManager contract. " + txReceipt);
-
     }
 
     private string SignChannelStateHash(ChannelState state)
