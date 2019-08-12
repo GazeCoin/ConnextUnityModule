@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Nethereum.ABI.FunctionEncoding.Attributes;
 using Nethereum.Contracts;
+using Nethereum.Contracts.ContractHandlers;
 using Nethereum.Web3;
 using Nethereum.Web3.Accounts;
 
@@ -1170,11 +1171,11 @@ public class ChannelManagerContract
     private Contract contractInstance;
     private string contractAddress;
 
-	public ChannelManagerContract(Nethereum.Web3.Accounts.Account account, string contractAddress, string url)
-	{
+    public ChannelManagerContract(Nethereum.Web3.Accounts.Account account, string contractAddress, string url)
+    {
         web3 = new Web3(account, url);
         this.contractAddress = contractAddress;
-	}
+    }
 
     // Return a reference to the instance of this contract at the given address.
     public Contract getContract()
@@ -1184,6 +1185,11 @@ public class ChannelManagerContract
             contractInstance = web3.Eth.GetContract(abi, contractAddress);
         }
         return contractInstance;
+    }
+
+    public IContractTransactionHandler<UserAuthorizedUpdateFunction> GetContractHandler()
+    {
+        return web3.Eth.GetContractTransactionHandler<UserAuthorizedUpdateFunction>();
     }
 
     public Function GetUserAuthorizedUpdateFunction()
@@ -1196,28 +1202,52 @@ public class ChannelManagerContract
         return contractInstance.GetFunction("getChannelDetails");
     }
 
-    [Function("userAuthorizedUpdate")]
+    [Function("userAuthorizedUpdate", "bool")]
     public class UserAuthorizedUpdateFunction : FunctionMessage
     {
-        [Parameter("address", "recipient")]
+        [Parameter("address", "recipient", 1)]
         public string Recipient { get; set; }
-        [Parameter("uint256[2]", "weiBalances")]
+        [Parameter("uint256[2]", "weiBalances", 2)]
         public BigInteger[] WeiBalances { get; set; } // [hub, user]
-        [Parameter("uint256[2]", "tokenBalances")]
+        [Parameter("uint256[2]", "tokenBalances", 3)]
         public BigInteger[] TokenBalances { get; set; } // [hub, user]
-        [Parameter("uint256[4]", "pendingWeiUpdates")]
+        [Parameter("uint256[4]", "pendingWeiUpdates", 4)]
         public BigInteger[] PendingWeiUpdates { get; set; } // [hubDeposit, hubWithdrawal, userDeposit, userWithdrawal]
-        [Parameter("uint256[4]", "pendingTokenUpdates")]
+        [Parameter("uint256[4]", "pendingTokenUpdates", 5)]
         public BigInteger[] PendingTokenUpdates { get; set; } // [hubDeposit, hubWithdrawal, userDeposit, userWithdrawal]
-        [Parameter("uint256[2]", "txCount")]
-        public uint[] TxCount { get; set; } // persisted onchain even when empty
-        [Parameter("bytes32", "threadRoot")]
-        public string ThreadRoot { get; set; }
-        [Parameter("uint256", "threadCount")]
-        public uint ThreadCount { get; set; }
-        [Parameter("uint256", "timeout")]
-        public uint Timeout { get; set; }
-        [Parameter("string", "sigHub")]
+        [Parameter("uint256[2]", "txCount", 6)]
+        public BigInteger[] TxCount { get; set; } // persisted onchain even when empty
+        [Parameter("bytes32", "threadRoot", 7)]
+        public byte[] ThreadRoot { get; set; }
+        [Parameter("uint256", "threadCount", 8)]
+        public BigInteger ThreadCount { get; set; }
+        [Parameter("uint256", "timeout", 9)]
+        public BigInteger Timeout { get; set; }
+        [Parameter("string", "sigHub", 10)]
         public string SigHub { get; set; }
+    }
+
+    [Function("getChannelBalances")]
+    public class GetChannelBalances : FunctionMessage
+    {
+        [Parameter("address", "user")]
+        public string User { get; set; }
+    }
+
+    [FunctionOutput]
+    public class ChannelBalances : IFunctionOutputDTO
+    {
+        [Parameter("uint256", "weiHub")]
+        public BigInteger WeiHub { get; set; }
+        [Parameter("uint256", "weiUser")]
+        public BigInteger WeiUser { get; set; }
+        [Parameter("uint256", "weiTotal")]
+        public BigInteger WeiTotal { get; set; }
+        [Parameter("uint256", "tokenHub")]
+        public BigInteger TokenHub { get; set; }
+        [Parameter("uint256", "tokenUser")]
+        public BigInteger TokenUser { get; set; }
+        [Parameter("uint256", "tokenTotal")]
+        public BigInteger TokenTotal { get; set; }
     }
 }

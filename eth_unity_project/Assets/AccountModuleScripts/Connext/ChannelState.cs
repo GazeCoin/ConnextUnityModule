@@ -30,24 +30,23 @@ public class ChannelState
 
     public decimal getBalanceEthHub()
     {
+        if (balanceWeiHub == null) return 0;
         return Web3.Convert.FromWei(BigInteger.Parse(balanceWeiHub));
     }
     public decimal getBalanceEthUser()
     {
+        if (balanceWeiUser == null) return 0;
         return Web3.Convert.FromWei(BigInteger.Parse(balanceWeiUser));
     }
     public decimal getBalanceTokenHub()
     {
+        if (balanceTokenHub == null) return 0;
         return Web3.Convert.FromWei(BigInteger.Parse(balanceTokenHub));
     }
     public decimal getBalanceTokenUser()
     {
+        if (balanceTokenUser == null) return 0;
         return Web3.Convert.FromWei(BigInteger.Parse(balanceTokenUser));
-    }
-
-    public void setProposedDepositDetails()
-    {
-
     }
 
     public ChannelState Clone()
@@ -128,10 +127,12 @@ public class ChannelState
                 BigInteger.Parse(pendingWithdrawalTokenHub),
                 BigInteger.Parse(pendingDepositTokenUser),
                 BigInteger.Parse(pendingWithdrawalTokenUser), },
-            TxCount         = new[] {txCountGlobal, txCountChain},
-            ThreadRoot      = this.threadRoot,
-            ThreadCount     = UInt16.Parse(this.threadCount),
-            Timeout         = UInt32.Parse(this.timeout),
+            TxCount         = new[] {
+                new BigInteger(txCountGlobal),
+                new BigInteger(txCountChain)},
+            ThreadRoot      = Utils.StringToBytes32(this.threadRoot),
+            ThreadCount     = BigInteger.Parse(this.threadCount),
+            Timeout         = BigInteger.Parse(this.timeout),
             SigHub          = sigHub
         };
     }

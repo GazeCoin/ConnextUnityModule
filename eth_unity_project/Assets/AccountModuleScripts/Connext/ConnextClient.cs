@@ -11,8 +11,10 @@ using System.Numerics;
 using System.Net;
 using UnityEngine.Networking;
 using Nethereum.Contracts;
+using Nethereum.Contracts.ContractHandlers;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.StandardTokenEIP20;
+using Nethereum.Util;
 
 public class ConnextClient
 {
@@ -198,18 +200,36 @@ public class ConnextClient
         //maxTimeout = getUpdateReqestTimeout(); TODO
 
         // Get gas price
-        var gasPrice = Web3.Convert.ToWei(0.001); //TODO - should be dynamic
+        var gasPrice = Web3.Convert.ToWei(4, UnitConversion.EthUnit.Gwei); //TODO - should be dynamic
+        Debug.Log("GasPrice " + gasPrice.ToString());
 
         // Generate token allowance and approve txs
-        var tokenService = new Nethereum.StandardTokenEIP20.StandardTokenService(web3, config.tokenAddress);
-        var receipt = await tokenService.ApproveRequestAndWaitForReceiptAsync(config.contractAddress, UInt32.Parse(update.args.depositTokenUser));
-        Debug.Log("Approve request completed. " + receipt);
+        if (UInt32.Parse(update.args.depositTokenUser) > 0)
+        {
+            var tokenService = new Nethereum.StandardTokenEIP20.StandardTokenService(web3, config.tokenAddress);
+            var receipt = await tokenService.ApproveRequestAndWaitForReceiptAsync(config.contractAddress, UInt32.Parse(update.args.depositTokenUser));
+            Debug.Log("Approve request completed. " + receipt);
+        }
 
         // Invoke connext contract UserAuthorizedUpdate
-        var updateHandler = web3.Eth.GetContractTransactionHandler<ChannelManagerContract.UserAuthorizedUpdateFunction>();
+        var updateHandler = channelManager.GetContractHandler();
         ChannelManagerContract.UserAuthorizedUpdateFunction fm = (ChannelManagerContract.UserAuthorizedUpdateFunction)newState.UserAuthorizedUpdateFunction();
+        fm.AmountToSend = BigInteger.Parse(update.args.depositWeiUser);
+        fm.GasPrice = gasPrice;
+        fm.Gas = new BigInteger(1000000);
+        //var txReceipt = await updateHandler.SendRequestAsync(config.contractAddress, fm);
         var txReceipt = await updateHandler.SendRequestAndWaitForReceiptAsync(config.contractAddress, fm);
-        Debug.Log("Deposit requested from channelManager contract. " + txReceipt);
+        Debug.Log("Deposit requested from channelManager contract. tx hash: " + txReceipt.TransactionHash.ToString());
+
+        /*var balHandler = web3.Eth.GetContractHandler(config.contractAddress);
+        ChannelManagerContract.GetChannelBalances fm = new ChannelManagerContract.GetChannelBalances() 
+        {
+            User = "0xc303b2169f64b636d143c6fb89e62506e451b0f3"  //account.Address
+        };
+        var txReceipt = await balHandler.QueryDeserializingToObjectAsync<ChannelManagerContract.GetChannelBalances, ChannelManagerContract.ChannelBalances>(fm);
+        Debug.Log("Deposit requested from channelManager contract. " + txReceipt.TokenTotal);
+        */
+
     }
 
     private string SignChannelStateHash(ChannelState state)
