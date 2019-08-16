@@ -1178,7 +1178,7 @@ public class ChannelManagerContract
     }
 
     // Return a reference to the instance of this contract at the given address.
-    public Contract getContract()
+    public Contract GetContract()
     {
         if (contractInstance == null)
         {

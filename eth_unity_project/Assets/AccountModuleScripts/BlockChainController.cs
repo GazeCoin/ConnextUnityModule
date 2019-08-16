@@ -56,7 +56,7 @@ public class BlockChainController : MonoBehaviour {
     {
         if (connext.getChannelState() != null)
         {
-            balanceText.text = "Balance: " + connext.getChannelState().balanceTokenUser + " FXXX";
+            balanceText.text = "Balance: " + connext.getChannelState().balanceTokenUser + " DAI";
         }
         if (account.Address != null)
         {

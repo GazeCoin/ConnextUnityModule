@@ -1,0 +1,164 @@
+http://multiverse.gazecoin.io/api/asset/0
+{
+    "tokenId": 0,
+    "owner": "0xGazeCoinOps123456789",
+    "name": "GazeCoin Multiverse #0 - The Final Parsec",
+    "description": "This is the layout of Amsterdam with the 1234 trackable_entities",
+    "image": "https://ipfs.gazecoin.io/ipfs/Qma789dovfLyiG2UUfdkSHNPAySzrWLX9qVXb44v1moooo",
+    "media": "https://ipfs.gazecoin.io/ipfs/Qma123dovfLyiG2UUfdkSHNPAySzrWLX9qVXb44v1mmmmm",
+    "attributes": [
+        {
+            "trait_type": "asset_type",
+            "value": "space"
+        },
+        {
+            "trait_type": "platform_fee",
+            "value": "0.01% (comment: of fees earnt by owners)"
+        },
+        {
+            "trait_type": "wallet",
+            "value": "0xGazeCoinsMultisig123456789"
+        },
+        {
+            "trait_type": "trackable_entity_53",
+            "value": "33 (comment: hyperlink from Amsterdam TE#53 to cube #33)"
+        },
+        {
+            "trait_type": "trackable_entity_54",
+            "value": "88 (comment: hyperlink from Amsterdam TE#54 to cube #88)"
+        }
+    ]
+}
+
+http://multiverse.gazecoin.io/api/asset/7654
+{
+    "tokenId": 7654,
+    "owner": "0xGazeCoinOps123456789",
+    "name": "GazeCoin Prebuilt Cube Theme #7654 - Another Lazy Day",
+    "description": "Yeah",
+    "image": "https://ipfs.gazecoin.io/ipfs/Qma6e8dovfLyiG2UUfdkSHNPAySzrWLX9qVXb44v1micon",
+    "media": "https://ipfs.gazecoin.io/ipfs/Qma6e8dovfLyiG2UUfdkSHNPAySzrWLX9qVXb44v1muqcp",
+    "attributes": [
+        {
+            "trait_type": "asset_type",
+            "value": "prebuilt_cube_theme"
+        },
+        {
+            "trait_type": "rental_rate",
+            "value": "0.1% (comment: of fees earnt by the owner of rooms using this prebuilt cube)"
+        },
+        {
+            "trait_type": "wallet",
+            "value": "0xGazeCoinsMultisig123456789"
+        }
+    ]
+}
+
+http://multiverse.gazecoin.io/api/asset/33
+{
+    "tokenId": 33,
+    "owner": "0xBokkyPooBah123456789",
+    "name": "#33 Bokky's Big Bang Bar",
+    "description": "Birthplace Of The Final Parsec",
+    "image": "https://www.bokconsulting.com.au/wp-content/uploads/2018/04/PrincessLeiaPeachExpelsARainbowBigBang2-940x198-1.png",
+    "media": "https://www.bokconsulting.com.au/wp-content/uploads/2018/04/PrincessLeiaPeachExpelsARainbowBigBang2-940x198-1.mp4 (does not exist)",
+    "attributes": [
+        {
+            "trait_type": "asset_type",
+            "value": "prebuilt_cube"
+        },
+        {
+            "trait_type": "prebuilt_cube_theme",
+            "value": "7654 (comment: cube rendered using prebuilt_cube theme #7654)"
+        },
+        {
+            "trait_type": "prebuilt_cube_theme_scheme_1",
+            "value": "purple"
+        },
+        {
+            "trait_type": "prebuilt_cube_theme_scheme_2",
+            "value": "green"
+        },
+        {
+            "trait_type": "wallet",
+            "value": "0xBokkysWallet123456789"
+        }
+    ]
+}
+
+http://multiverse.gazecoin.io/api/asset/44
+{
+    "tokenId": 44,
+    "owner": "0xBokkyPooBah123456789",
+    "name": "#44 Bokky's Cosmic Experience",
+    "description": "Yes, just come in",
+    "image": "https://www.bokconsulting.com.au/wp-content/uploads/2018/04/PrincessLeiaPeachExpelsARainbowBigBang2-940x198-1.png",
+    "media": "https://www.bokconsulting.com.au/wp-content/uploads/2018/04/PrincessLeiaPeachExpelsARainbowBigBang2-940x198-1.mp4 (does not exist)",
+    "attributes": [
+        {
+            "trait_type": "asset_type",
+            "value": "prebuilt_cube"
+        },
+        {
+            "trait_type": "prebuilt_cube_theme",
+            "value": "8765 (comment: cube rendered using prebuilt_cube #8765)"
+        },
+        {
+            "trait_type": "prebuilt_cube_theme_scheme_1",
+            "value": "#6610f2;"
+        },
+        {
+            "trait_type": "prebuilt_cube_theme_scheme_2",
+            "value": "#fd7e14;"
+        },
+        {
+            "trait_type": "wallet",
+            "value": "0xBokkysWallet123456789"
+        }
+    ]
+}
+
+http://multiverse.gazecoin.io/api/asset/77
+{
+    "tokenId": 77,
+    "owner": "0xBokkyPooBah123456789",
+    "name": "#77 Princess",
+    "description": "Princess Leia Peach's Vertical Rainbow Lunar Landing",
+    "image": "https://www.bokconsulting.com.au/wp-content/uploads/2018/01/PrincessLeiaPeachsVerticalRainbowLunarLanding.png",
+    "media": "https://www.bokconsulting.com.au/wp-content/uploads/2018/01/PrincessLeiaPeachsVerticalRainbowLunarLanding.mp4 (does not exist)",
+    "attributes": [
+        {
+            "trait_type": "asset_type",
+            "value": "avatar"
+        },
+        {
+            "trait_type": "avatar_location",
+            "value": {
+                "tokenId": "33 (comment: Princess is hanging out at Bokky's Big Bang Bar)",
+                "position": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 2
+                },
+                "rotation": {
+                    "x": 3,
+                    "y": 4,
+                    "z": 5
+                },
+                "scale": {
+                    "x": 6,
+                    "y": 7,
+                    "z": 8
+                }
+            }
+        },
+        {
+            "trait_type": "link_to",
+            "value": "44 (comment: avatar's hot link to another cube)"
+        },
+        {
+            "trait_type": "wallet",
+            "value": "0xBokkysWallet123456789"
+        }
+    ]
+}
