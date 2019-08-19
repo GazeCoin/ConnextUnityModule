@@ -79,6 +79,7 @@
     <Compile Include="Assets\AccountModuleScripts\Contracts\ChannelManagerContract.cs" />
     <Compile Include="Assets\AccountModuleScripts\Contracts\ERC20Token.cs" />
     <Compile Include="Assets\AccountModuleScripts\Contracts\GazeCoinMultiverseContract.cs" />
+    <Compile Include="Assets\AccountModuleScripts\GazeEthAPI.cs" />
     <Compile Include="Assets\AccountModuleScripts\Multiverse\Apartment.cs" />
     <Compile Include="Assets\AccountModuleScripts\Payment.cs" />
     <Compile Include="Assets\ButtonHandler.cs" />
