@@ -11,58 +11,44 @@ public class BlockChainController : MonoBehaviour {
     public Text balanceText;
     public delegate void ButtonClick();
     public Nethereum.Web3.Accounts.Account account;
-    //private string ethNodeUrl = "https://eth-ropsten.alchemyapi.io/jsonrpc/HxEg1dDqvI297deLt3jVNowBPYWWlZLo"; 
-    private string ethNodeUrl = "https://rpc.gazecoin.xyz";
     private static BlockChainController bcc;
-    ConnextClient connext;
-    private static HDWallet wallet;
     private decimal ethBalance;
     private decimal tokenBalance;
-    private Web3 web3;
+    private GazeCoinEthAPI gazeAPI;
+    private GazeCoinEthAPI.BoolEvent initCompleteEvent;
 
     void Start () {
         bcc = this;
-
-        web3 = new Web3(ethNodeUrl);
-
         Balance _balance = new Balance();
-        //Account _account = new Account();
-        wallet = new HDWallet();
 
-        wallet.CreateWallet();
-        account = HDWallet.getAccount();
+        gazeAPI = new GazeCoinEthAPI();
+        gazeAPI.InitComplete.AddListener(InitComplete);
+        gazeAPI.Init();
+        // Start listeners
 
-        AccountText.text = "Address: " + account.Address.ToString();
+    }
 
-        // Balance example
-        StartCoroutine(_balance.PeriodicBalanceRequest(
-            ethNodeUrl,
-            account.Address, (balance) => {
-                //balanceText.text = "Balance: " + balance;
-                ethBalance = balance;
-                Debug.Log("L1 balance is " + balance);
-        }));
-
-        connext = new ConnextClient(web3, account, ethNodeUrl);
-        connext.Init();
+    void InitComplete(bool success)
+    {
+        Debug.Log("Init complete " + success);
+        if (success)
+        {
+            account = gazeAPI.Account;
+            AccountText.text = "Address: " + account.Address.ToString();
+        }
     }
 
     async void RequestDeposit()
     {
-        await connext.RequestDeposit(0, Nethereum.Web3.Web3.Convert.ToWei(0.005));
+        await gazeAPI.RequestDeposit(0.005m);
     }
 
     void OnPreRender()
     {
-        if (connext.getChannelState() != null)
+        
+        if (gazeAPI.IsReady())
         {
-            balanceText.text = "Balance: " + connext.getChannelState().balanceTokenUser + " DAI";
-        }
-        if (account.Address != null)
-        {
-            //var txt = "Addr: " + account.Address.ToString().Substring(2);
-            //AccountText.text = txt;
-            //Debug.Log("pre render" + txt);
+            balanceText.text = "Balance: " + gazeAPI.GetBalance("DAI") + " DAI";
         }
     }
 
@@ -89,8 +75,4 @@ public class BlockChainController : MonoBehaviour {
         RequestDeposit();
     }
 
-    public static HDWallet getWallet()
-    {
-        return wallet;
-    }
 }

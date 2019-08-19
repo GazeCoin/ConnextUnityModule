@@ -7,14 +7,15 @@ using System.Timers;
 using System;
 using System.Threading.Tasks;
 
-public class GazeEthAPI
+public class GazeCoinEthAPI
 {
 
-    public Nethereum.Web3.Accounts.Account account { get; set; }
+    public Nethereum.Web3.Accounts.Account Account { get; set; }
     //private string ethNodeUrl = "https://eth-ropsten.alchemyapi.io/jsonrpc/HxEg1dDqvI297deLt3jVNowBPYWWlZLo"; 
     private const string ETH_NODE_URL = "https://rpc.gazecoin.xyz";
     ConnextClient connext;
     private Web3 web3;
+    private bool isReady = false;
 
     private Timer l2StateCheckTimer;
     private Timer l1BalanceTimer;
@@ -23,14 +24,14 @@ public class GazeEthAPI
     private const uint L2_STATE_CHECK_PERIOD = 10 * SECONDS;
     private const uint L1_BALANCE_CHECK_PERIOD = 30 * SECONDS;
 
-    public BalanceEvent BalanceUpdated; // Parameters are type, reason, amount, token
-    public BoolEvent InitComplete;
-    public UnityEvent ConnextDisconnected;
-    public UnityEvent ConnextConnected;
-    public UnityEvent DepositCompleted;
-    public UnityEvent WithdrawalCompleted;
-    public UnityEvent Collateralised;
-    public UnityEvent SwapCompleted;
+    public BalanceEvent BalanceUpdated = new BalanceEvent(); // Parameters are type, reason, amount, token
+    public BoolEvent InitComplete = new BoolEvent();
+    public UnityEvent ConnextDisconnected = new UnityEvent();
+    public UnityEvent ConnextConnected = new UnityEvent();
+    public UnityEvent DepositCompleted = new UnityEvent();
+    public UnityEvent WithdrawalCompleted = new UnityEvent();
+    public UnityEvent Collateralised = new UnityEvent();
+    public UnityEvent SwapCompleted = new UnityEvent();
 
     /*
      * Initialise the Connext client. Will retrieve the HD wallet from storage, if found. Otherwise a new wallet will be created.
@@ -43,20 +44,27 @@ public class GazeEthAPI
         Wallet = new HDWallet();
 
         Wallet.CreateWallet();
-        account = HDWallet.getAccount();
+        Account = HDWallet.getAccount();
 
-        connext = new ConnextClient(web3, account, ETH_NODE_URL);
+        connext = new ConnextClient(web3, Account, ETH_NODE_URL);
         connext.Init();
 
         StartBalanceMonitor();
 
+        isReady = true;
         InitComplete.Invoke(true);
+
     }
 
     public void Stop()
     {
         l2StateCheckTimer.Stop();
         l1BalanceTimer.Stop();
+    }
+
+    public bool IsReady()
+    {
+        return isReady;
     }
 
     public void ImportPassphrase(string passphrase)
@@ -74,7 +82,7 @@ public class GazeEthAPI
      */
     public string GetAddress()
     {
-        return account.Address;
+        return Account.Address;
     }
 
     public Balances GetBalances()
@@ -84,13 +92,28 @@ public class GazeEthAPI
         return bals;
     }
 
+    // Returns the balance for the given token abbreviation
+    // or 0 if not found
+    public decimal GetBalance(string token)
+    {
+        Balances bals = GetBalances();
+        return bals.GetBalance(token);
+    }
+
     /*
      * Request a deposit into the layer 2 token account. 
      * 
      */
-    public async void RequestDeposit(decimal amount)
+    public async Task RequestDeposit(decimal amount)
     {
         await connext.RequestDeposit(Nethereum.Web3.Web3.Convert.ToWei(amount), 0);
+        DepositCompleted.Invoke();
+    }
+
+    public void RequestCollateral()
+    {
+        //await connext.ReuestCollateral TODO
+        Collateralised.Invoke();
     }
 
     /*
@@ -114,9 +137,6 @@ public class GazeEthAPI
     {
         return new Apartment(); // TODO
     }
-
-
-
 
     void StartBalanceMonitor()
     {
@@ -162,6 +182,16 @@ public class GazeEthAPI
         internal void AddBalance(decimal amount, string token)
         {
             AddBalance(new Balance(amount, token));
+        }
+
+        // Return the balance for a given token abbreviation
+        public decimal GetBalance(string token)
+        {
+            foreach (Balance bal in BalanceList)
+            {
+                if (bal.token.Equals(token)) return bal.amount;
+            }
+            return 0m;
         }
     }
 
