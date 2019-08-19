@@ -48,7 +48,7 @@ public class BlockChainController : MonoBehaviour {
         
         if (gazeAPI.IsReady())
         {
-            balanceText.text = "Balance: " + gazeAPI.GetBalance("DAI") + " DAI";
+            balanceText.text = "Balance: " + gazeAPI.GetBalance("ETH") + " ETH/" + gazeAPI.GetBalance("DAI") + " DAI";
         }
     }
 
@@ -59,19 +59,6 @@ public class BlockChainController : MonoBehaviour {
 
     public void PayButton_OnClick()
     {
-        /*
-        Debug.Log("Pay onClick");
-        Payment _payment = new Payment();
-        // Payment example
-        StartCoroutine(_payment.MakePayment(
-           ethNodeUrl, // server
-           "750f470f331da664f26b3ca8e05f30b54e21abf0bdbb4706a1ce920c4fd147aa", // from priv
-           account.Address, // from pub
-           "0x7B3150cC598FD65058044Dec34c9db545b8E1E90", // to
-           1.1m, // send amount
-           2 // gas
-        ));
-    */
         RequestDeposit();
     }
 

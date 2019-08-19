@@ -37,7 +37,7 @@ public class GazeCoinEthAPI
      * Initialise the Connext client. Will retrieve the HD wallet from storage, if found. Otherwise a new wallet will be created.
      * Starts periodic tasks to track layer 1 and layer 2 balances and events. 
      */
-    public void Init()
+    public async Task Init()
     {
         web3 = new Web3(ETH_NODE_URL);
 
@@ -47,12 +47,18 @@ public class GazeCoinEthAPI
         Account = HDWallet.getAccount();
 
         connext = new ConnextClient(web3, Account, ETH_NODE_URL);
-        connext.Init();
+        try
+        {
+            await connext.Init();
 
-        StartBalanceMonitor();
+            StartBalanceMonitor();
 
-        isReady = true;
-        InitComplete.Invoke(true);
+            isReady = true;
+        } catch (Exception ex)
+        {
+            isReady = false;
+        }
+        InitComplete.Invoke(isReady);
 
     }
 
@@ -89,6 +95,8 @@ public class GazeCoinEthAPI
     {
         ChannelState state = connext.getChannelState();
         Balances bals = new Balances();
+        bals.AddBalance(state.getBalanceEthUser(), "ETH");
+        bals.AddBalance(state.getBalanceTokenUser(), "DAI");
         return bals;
     }
 

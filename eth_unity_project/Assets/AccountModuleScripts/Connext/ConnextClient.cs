@@ -49,7 +49,7 @@ public class ConnextClient
         this.ethNodeUrl = url;
     }
 
-    public async void Init()
+    public async Task Init()
     {
         client.BaseAddress = new Uri(connextHubUrl);
         client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
