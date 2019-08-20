@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using Nethereum.Web3;
+//using Nethereum.Web3;
 using System.Timers;
 using System;
 using System.Threading.Tasks;
@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 public class GazeCoinEthAPI
 {
 
-    public Nethereum.Web3.Accounts.Account Account { get; set; }
+    //public Nethereum.Web3.Accounts.Account Account { get; set; }
     //private string ethNodeUrl = "https://eth-ropsten.alchemyapi.io/jsonrpc/HxEg1dDqvI297deLt3jVNowBPYWWlZLo"; 
     private const string ETH_NODE_URL = "https://rpc.gazecoin.xyz";
-    ConnextClient connext;
-    private Web3 web3;
+    //ConnextClient connext;
+    //private Web3 web3;
     private Balance _balance;
     private decimal ethBalance;
     private bool isReady = false;
@@ -41,26 +41,26 @@ public class GazeCoinEthAPI
      */
     public async Task Init()
     {
-        web3 = new Web3(ETH_NODE_URL);
+        //web3 = new Web3(ETH_NODE_URL);
 
-        Wallet = new HDWallet();
+        //Wallet = new HDWallet();
 
-        Wallet.CreateWallet();
-        Account = HDWallet.getAccount();
+        //Wallet.CreateWallet();
+        //Account = HDWallet.getAccount();
 
-        connext = new ConnextClient(web3, Account, ETH_NODE_URL);
-        try
-        {
-            await connext.Init();
+        //connext = new ConnextClient(web3, Account, ETH_NODE_URL);
+        //try
+        //{
+        //    await connext.Init();
 
-            StartBalanceMonitor();
+        //    StartBalanceMonitor();
 
-            isReady = true;
-        } catch (Exception ex)
-        {
-            isReady = false;
-        }
-        InitComplete.Invoke(isReady);
+        //    isReady = true;
+        //} catch (Exception ex)
+        //{
+        //    isReady = false;
+        //}
+        //InitComplete.Invoke(isReady);
 
     }
 
@@ -88,27 +88,18 @@ public class GazeCoinEthAPI
     /*
      * Returns the ETH address for the default account
      */
-    public string GetAddress()
-    {
-        return Account.Address;
-    }
-
-    public Balances GetBalances()
-    {
-        ChannelState state = connext.getChannelState();
-        Balances bals = new Balances();
-        bals.AddBalance(state.getBalanceEthUser(), "ETH");
-        bals.AddBalance(state.getBalanceTokenUser(), "DAI");
-        return bals;
-    }
+    //public string GetAddress()
+    //{
+    //    /return Account.Address;
+    //}
 
     // Returns the balance for the given token abbreviation
     // or 0 if not found
-    public decimal GetBalance(string token)
-    {
-        Balances bals = GetBalances();
-        return bals.GetBalance(token);
-    }
+    //public decimal GetBalance(string token)
+    //{
+    //    //Balances bals = GetBalances();
+    //    //return bals.GetBalance(token);
+    //}
 
     /*
      * Request a deposit into the layer 2 token account. 
@@ -116,7 +107,7 @@ public class GazeCoinEthAPI
      */
     public async Task RequestDeposit(decimal amount)
     {
-        await connext.RequestDeposit(Nethereum.Web3.Web3.Convert.ToWei(amount), 0);
+//        await connext.RequestDeposit(Nethereum.Web3.Web3.Convert.ToWei(amount), 0);
         DepositCompleted.Invoke();
     }
 
@@ -153,7 +144,7 @@ public class GazeCoinEthAPI
         // Get Connext channel state.
         l2StateCheckTimer = new Timer(L2_STATE_CHECK_PERIOD);
         l2StateCheckTimer.Elapsed += async ( sender, e ) => {
-            await connext.FetchChannelState();
+  //          await connext.FetchChannelState();
         };
         l2StateCheckTimer.Start();
 
@@ -170,10 +161,10 @@ public class GazeCoinEthAPI
         l1BalanceTimer.Start();
     }
 
-    public static HDWallet Wallet
-    {
-        get; set;
-    }
+    //public static HDWallet Wallet
+    //{
+    //    get; set;
+    //}
 
     public class Balances
     {

@@ -1,9 +1,13 @@
 .DS_Store
 /backup_plugins
+/backup_plugins_190820
 /eth_unity_project/build
 /eth_unity_project/buildwin
 /eth_unity_project/Logs
-/eth_unity_project/obj/Debug
+/eth_unity_project/obj/**
 /eth_unity_project/Temp
 /eth_unity_project/.vs
+/eth_unity_project/Library
+/eth_unity_project/obj
+/eth_unity_project/Packages
 /.vs

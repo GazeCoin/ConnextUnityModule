@@ -42,7 +42,7 @@ class ConnextAuth
     public void SetNonce(string nonce)
     {
         this.nonce = nonce;
-        this.signature = HDWallet.Sign(nonce);
+        //this.signature = HDWallet.Sign(nonce);
     }
 
     public class Nonce

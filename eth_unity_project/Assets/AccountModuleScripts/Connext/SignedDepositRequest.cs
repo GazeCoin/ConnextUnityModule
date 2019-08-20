@@ -17,7 +17,7 @@ public class SignedDepositRequest
         bab.AddUInt256(payment.getAmountToken());
         bab.AddUInt256(payment.getAmountWei());
         // Now hash it
-        sigUser = HDWallet.HashAndSign(bab.GetByteArray());
+        //sigUser = HDWallet.HashAndSign(bab.GetByteArray());
     }
 
 }

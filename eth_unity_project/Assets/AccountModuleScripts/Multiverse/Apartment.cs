@@ -1,7 +1,5 @@
 ﻿using System;
-using Nethereum.Web3;
 using System.Numerics;
-using Nethereum.Contracts;
 
 public class Apartment
 {

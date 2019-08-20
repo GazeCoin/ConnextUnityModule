@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Http;
+//using System.Net.Http;
 using UnityEngine;
 using Nethereum.HdWallet;
 using System.Threading.Tasks;
@@ -82,7 +82,7 @@ public class ConnextClient
         await FetchChannelState();
         channelTxCount = channelState.txCountChain;
 
-        await HubSync();
+        await HubSync(); 
     }
 
     public async Task Authorisation()
@@ -102,7 +102,7 @@ public class ConnextClient
         auth.SetNonce(nonce.nonce);
         Debug.Log("auth nonce: " + nonce.nonce);
         // Set auth headers for future use.
-        auth.AddAuthHeaders(client);
+        auth.AddAuthHeaders(client); 
     }
 
     public async Task FetchChannelState()
@@ -115,7 +115,7 @@ public class ConnextClient
         var bal = await response.Content.ReadAsStringAsync();
         Debug.Log("channel state: " + bal);
         channelState = JsonConvert.DeserializeObject<ChannelState>(bal);
-        Debug.Log("balance result: " + channelState.getBalanceEthHub());
+        Debug.Log("balance result: " + channelState.getBalanceEthHub()); 
     }
 
     public ChannelState getChannelState()
@@ -149,7 +149,7 @@ public class ConnextClient
         }
         var bal = await response.Content.ReadAsStringAsync();
         channelState = JsonConvert.DeserializeObject<ChannelState>(bal);
-        Debug.Log("balance result: " + channelState.getBalanceEthHub());
+        Debug.Log("balance result: " + channelState.getBalanceEthHub()); 
     }
 
     public async Task HubSync()
@@ -172,7 +172,7 @@ public class ConnextClient
                 SyncResult.UpdateDetails update = syncResult.updates[0].update;
                 if ("ProposePendingDeposit".Equals(update.reason))
                 {
-                    ProposePendingDeposit(update);
+//                    ProposePendingDeposit(update);
                 }
                 // TODO: handle other reason types
                 //TODO: handle > 1 update
@@ -222,14 +222,14 @@ public class ConnextClient
         var txReceipt = await updateHandler.SendRequestAndWaitForReceiptAsync(config.contractAddress, fm);
         Debug.Log("Deposit requested from channelManager contract. tx hash: " + txReceipt.TransactionHash.ToString());
 
-        /*var balHandler = web3.Eth.GetContractHandler(config.contractAddress);
+        var balHandler = web3.Eth.GetContractHandler(config.contractAddress);
         ChannelManagerContract.GetChannelBalances fm = new ChannelManagerContract.GetChannelBalances() 
         {
             User = "0xc303b2169f64b636d143c6fb89e62506e451b0f3"  //account.Address
         };
         var txReceipt = await balHandler.QueryDeserializingToObjectAsync<ChannelManagerContract.GetChannelBalances, ChannelManagerContract.ChannelBalances>(fm);
         Debug.Log("Deposit requested from channelManager contract. " + txReceipt.TokenTotal);
-        */
+        
 
     }
 

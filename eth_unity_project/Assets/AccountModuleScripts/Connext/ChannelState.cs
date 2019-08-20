@@ -1,7 +1,7 @@
 ﻿using System;
-using Nethereum.Web3;
+//using Nethereum.Web3;
 using System.Numerics;
-using Nethereum.Contracts;
+//using Nethereum.Contracts;
 
 public class ChannelState
 {
@@ -28,26 +28,26 @@ public class ChannelState
     public string sigHub;
     public string sigUser;
 
-    public decimal getBalanceEthHub()
-    {
-        if (balanceWeiHub == null) return 0;
-        return Web3.Convert.FromWei(BigInteger.Parse(balanceWeiHub));
-    }
-    public decimal getBalanceEthUser()
-    {
-        if (balanceWeiUser == null) return 0;
-        return Web3.Convert.FromWei(BigInteger.Parse(balanceWeiUser));
-    }
-    public decimal getBalanceTokenHub()
-    {
-        if (balanceTokenHub == null) return 0;
-        return Web3.Convert.FromWei(BigInteger.Parse(balanceTokenHub));
-    }
-    public decimal getBalanceTokenUser()
-    {
-        if (balanceTokenUser == null) return 0;
-        return Web3.Convert.FromWei(BigInteger.Parse(balanceTokenUser));
-    }
+    //public decimal getBalanceEthHub()
+    //{
+    //    if (balanceWeiHub == null) return 0;
+    //    return Web3.Convert.FromWei(BigInteger.Parse(balanceWeiHub));
+    //}
+    //public decimal getBalanceEthUser()
+    //{
+    //    if (balanceWeiUser == null) return 0;
+    //    return Web3.Convert.FromWei(BigInteger.Parse(balanceWeiUser));
+    //}
+    //public decimal getBalanceTokenHub()
+    //{
+    //    if (balanceTokenHub == null) return 0;
+    //    return Web3.Convert.FromWei(BigInteger.Parse(balanceTokenHub));
+    //}
+    //public decimal getBalanceTokenUser()
+    //{
+    //    if (balanceTokenUser == null) return 0;
+    //    return Web3.Convert.FromWei(BigInteger.Parse(balanceTokenUser));
+    //}
 
     public ChannelState Clone()
     {
@@ -104,37 +104,37 @@ public class ChannelState
         return bab.GetByteArray();
     }
 
-    public FunctionMessage UserAuthorizedUpdateFunction()
-    {
-        return new ChannelManagerContract.UserAuthorizedUpdateFunction()
-        {
-            Recipient       = recipient,
-            WeiBalances     = new[] {
-                BigInteger.Parse(balanceWeiHub),
-                BigInteger.Parse(balanceWeiUser)
-            },
-            TokenBalances   = new[] {
-                BigInteger.Parse(balanceTokenHub),
-                BigInteger.Parse(balanceTokenUser)
-            },
-            PendingWeiUpdates = new[] {
-                BigInteger.Parse(pendingDepositWeiHub),
-                BigInteger.Parse(pendingWithdrawalWeiHub),
-                BigInteger.Parse(pendingDepositWeiUser),
-                BigInteger.Parse(pendingWithdrawalWeiUser), },
-            PendingTokenUpdates = new[] {
-                BigInteger.Parse(pendingDepositTokenHub),
-                BigInteger.Parse(pendingWithdrawalTokenHub),
-                BigInteger.Parse(pendingDepositTokenUser),
-                BigInteger.Parse(pendingWithdrawalTokenUser), },
-            TxCount         = new[] {
-                new BigInteger(txCountGlobal),
-                new BigInteger(txCountChain)},
-            ThreadRoot      = Utils.StringToBytes32(this.threadRoot),
-            ThreadCount     = BigInteger.Parse(this.threadCount),
-            Timeout         = BigInteger.Parse(this.timeout),
-            SigHub          = sigHub
-        };
-    }
+    //public FunctionMessage UserAuthorizedUpdateFunction()
+    //{
+    //    return new ChannelManagerContract.UserAuthorizedUpdateFunction()
+    //    {
+    //        Recipient       = recipient,
+    //        WeiBalances     = new[] {
+    //            BigInteger.Parse(balanceWeiHub),
+    //            BigInteger.Parse(balanceWeiUser)
+    //        },
+    //        TokenBalances   = new[] {
+    //            BigInteger.Parse(balanceTokenHub),
+    //            BigInteger.Parse(balanceTokenUser)
+    //        },
+    //        PendingWeiUpdates = new[] {
+    //            BigInteger.Parse(pendingDepositWeiHub),
+    //            BigInteger.Parse(pendingWithdrawalWeiHub),
+    //            BigInteger.Parse(pendingDepositWeiUser),
+    //            BigInteger.Parse(pendingWithdrawalWeiUser), },
+    //        PendingTokenUpdates = new[] {
+    //            BigInteger.Parse(pendingDepositTokenHub),
+    //            BigInteger.Parse(pendingWithdrawalTokenHub),
+    //            BigInteger.Parse(pendingDepositTokenUser),
+    //            BigInteger.Parse(pendingWithdrawalTokenUser), },
+    //        TxCount         = new[] {
+    //            new BigInteger(txCountGlobal),
+    //            new BigInteger(txCountChain)},
+    //        ThreadRoot      = Utils.StringToBytes32(this.threadRoot),
+    //        ThreadCount     = BigInteger.Parse(this.threadCount),
+    //        Timeout         = BigInteger.Parse(this.timeout),
+    //        SigHub          = sigHub
+    //    };
+    //}
 }
 

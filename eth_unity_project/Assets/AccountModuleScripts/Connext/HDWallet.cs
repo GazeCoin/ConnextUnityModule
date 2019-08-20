@@ -26,7 +26,8 @@ public class HDWallet
 
                 sw.WriteLine(words.ToString());
             }
-        } else
+        }
+        else
         {
             using (StreamReader sr = File.OpenText(keystore))
             {
@@ -35,7 +36,8 @@ public class HDWallet
                 if (s != null)
                 {
                     words = new Mnemonic(s);
-                } else
+                }
+                else
                 {
                     throw new Exception("Invalid keystore file.");
                 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Nethereum.Contracts;
-using Nethereum.Web3;
-using Nethereum.Web3.Accounts;
+//using Nethereum.Contracts;
+//using Nethereum.Web3;
+//using Nethereum.Web3.Accounts;
 
 public class ERC20Token
 {
@@ -292,29 +292,29 @@ public class ERC20Token
     }
   ]";
 
-    private Web3 web3;
-    private Contract contractInstance;
-    private string contractAddress;
+ //   private Web3 web3;
+ //   private Contract contractInstance;
+ //   private string contractAddress;
 
-	public ERC20Token(Nethereum.Web3.Accounts.Account account, string contractAddress, string url)
-	{
-        web3 = new Web3(account, url);
-        this.contractAddress = contractAddress;
-	}
+	//public ERC20Token(Nethereum.Web3.Accounts.Account account, string contractAddress, string url)
+	//{
+ //       web3 = new Web3(account, url);
+ //       this.contractAddress = contractAddress;
+	//}
 
-    // Return a reference to the instance of this contract at the given address.
-    public Contract getContract()
-    {
-        if (contractInstance == null)
-        {
-            contractInstance = web3.Eth.GetContract(abi, contractAddress);
-        }
-        return contractInstance;
-    }
+ //   // Return a reference to the instance of this contract at the given address.
+ //   public Contract getContract()
+ //   {
+ //       if (contractInstance == null)
+ //       {
+ //           contractInstance = web3.Eth.GetContract(abi, contractAddress);
+ //       }
+ //       return contractInstance;
+ //   }
 
-    public Function ApproveFunction()
-    {
-        return contractInstance.GetFunction("approve");
-    }
+ //   public Function ApproveFunction()
+ //   {
+ //       return contractInstance.GetFunction("approve");
+ //   }
 
 }
