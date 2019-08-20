@@ -326,6 +326,9 @@
     <Reference Include="System.Security.Cryptography.X509Certificates">
       <HintPath>Assets/Plugins/System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
+    <Reference Include="AwaitExtensions">
+      <HintPath>Assets/Plugins/Numba/AwaitExtensions/Code/AwaitExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>

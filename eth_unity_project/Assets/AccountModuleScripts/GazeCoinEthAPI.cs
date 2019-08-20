@@ -15,6 +15,8 @@ public class GazeCoinEthAPI
     private const string ETH_NODE_URL = "https://rpc.gazecoin.xyz";
     ConnextClient connext;
     private Web3 web3;
+    private Balance _balance;
+    private decimal ethBalance;
     private bool isReady = false;
 
     private Timer l2StateCheckTimer;
@@ -151,19 +153,19 @@ public class GazeCoinEthAPI
         // Get Connext channel state.
         l2StateCheckTimer = new Timer(L2_STATE_CHECK_PERIOD);
         l2StateCheckTimer.Elapsed += async ( sender, e ) => {
-            //await connext.getChannelState();
+            await connext.FetchChannelState();
         };
         l2StateCheckTimer.Start();
 
         // Check account balance on mainnet
         l1BalanceTimer = new Timer(L1_BALANCE_CHECK_PERIOD);
-        l1BalanceTimer.Elapsed += async (sender, e) => {
-            /*await _balance.PeriodicBalanceRequest(
+        l1BalanceTimer.Elapsed += (sender, e) => {
+            /*_balance.PeriodicBalanceRequest(
             ETH_NODE_URL,
-            account.Address, (balance) => {
+            Account.Address, (balance) => {
                 ethBalance = balance;
                 Debug.Log("L1 balance is " + balance);
-            })*/
+            }); */
         };
         l1BalanceTimer.Start();
     }
@@ -175,27 +177,27 @@ public class GazeCoinEthAPI
 
     public class Balances
     {
-        public List<Balance> BalanceList { get;  private set; }
+        public List<TokenBalance> BalanceList { get;  private set; }
 
         internal Balances()
         {
-            BalanceList = new List<Balance>();
+            BalanceList = new List<TokenBalance>();
         }
 
-        internal void AddBalance(Balance bal)
+        internal void AddBalance(TokenBalance bal)
         {
             BalanceList.Add(bal);
         }
 
         internal void AddBalance(decimal amount, string token)
         {
-            AddBalance(new Balance(amount, token));
+            AddBalance(new TokenBalance(amount, token));
         }
 
         // Return the balance for a given token abbreviation
         public decimal GetBalance(string token)
         {
-            foreach (Balance bal in BalanceList)
+            foreach (TokenBalance bal in BalanceList)
             {
                 if (bal.token.Equals(token)) return bal.amount;
             }
@@ -203,12 +205,12 @@ public class GazeCoinEthAPI
         }
     }
 
-    public struct Balance
+    public struct TokenBalance
     {
         public decimal amount;
         public string token;
 
-        public Balance(decimal amount, string token)
+        public TokenBalance(decimal amount, string token)
         {
             this.amount = amount;
             this.token = token;

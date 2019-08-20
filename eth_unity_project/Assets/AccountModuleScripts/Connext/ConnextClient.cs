@@ -6,6 +6,7 @@ using System.Net.Http;
 using UnityEngine;
 using Nethereum.HdWallet;
 using System.Threading.Tasks;
+using Numba.Awaiting.Engine;
 using Nethereum.Web3;
 using System.Numerics;
 using System.Net;
@@ -179,7 +180,7 @@ public class ConnextClient
         }
     }
 
-    private async void ProposePendingDeposit(SyncResult.UpdateDetails update)
+    private async Task ProposePendingDeposit(SyncResult.UpdateDetails update)
     {
         // TODO validate args signature
         // Generate new state

@@ -79,7 +79,7 @@
     <Compile Include="Assets\AccountModuleScripts\Contracts\ChannelManagerContract.cs" />
     <Compile Include="Assets\AccountModuleScripts\Contracts\ERC20Token.cs" />
     <Compile Include="Assets\AccountModuleScripts\Contracts\GazeCoinMultiverseContract.cs" />
-    <Compile Include="Assets\AccountModuleScripts\GazeEthAPI.cs" />
+    <Compile Include="Assets\AccountModuleScripts\GazeCoinEthAPI.cs" />
     <Compile Include="Assets\AccountModuleScripts\Multiverse\Apartment.cs" />
     <Compile Include="Assets\AccountModuleScripts\Payment.cs" />
     <Compile Include="Assets\ButtonHandler.cs" />
@@ -406,6 +406,9 @@
     </Reference>
     <Reference Include="System.Security.Cryptography.X509Certificates">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="AwaitExtensions">
+      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Numba/AwaitExtensions/Code/AwaitExtensions.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
