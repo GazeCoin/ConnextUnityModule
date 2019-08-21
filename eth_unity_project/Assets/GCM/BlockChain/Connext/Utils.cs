@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Globalization;
 using System.Numerics;
+using System.Text;
+using System.Xml;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -140,25 +142,12 @@ public class Utils
             Debug.Log("UploadData");
             request.url = Url;
             request.method = Method;
-            yield return request.Send();
+            yield return request.SendWebRequest();
             Debug.Log("Server response code: " + request.responseCode);
 
             ResponseCode = request.responseCode;
             Response = request.downloadHandler.text;
             ReasonMessage = request.error;
-
-            // A 201 response code is expected on success
-            // if we don't get this code - handle the error.
-            //if (request.responseCode != 201)
-            //{
-            //    if (!string.IsNullOrEmpty(request.error))
-            //    {
-            //    }
-            //    // If error field empty but there is potentially body response text. eg. 400, 401:
-            //    else
-            //    {
-            //    }
-            //}
 
             request.Dispose();
 
@@ -168,6 +157,12 @@ public class Utils
         public bool IsSuccess()
         {
             return (ResponseCode >= 200 && ResponseCode < 300) ;
+        }
+
+        public void SetBody(string body)
+        {
+            request.uploadHandler = new UploadHandlerRaw(Encoding.ASCII.GetBytes(body));
+            request.uploadHandler.contentType = "application/json";
         }
     }
 

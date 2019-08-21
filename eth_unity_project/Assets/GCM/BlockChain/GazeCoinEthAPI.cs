@@ -18,6 +18,7 @@ public class GazeCoinEthAPI
     private Balance _balance;
     private decimal ethBalance;
     private bool isReady = false;
+    public static HDWallet Wallet { get; set; }
 
     private Timer l2StateCheckTimer;
     private Timer l1BalanceTimer;
@@ -170,11 +171,6 @@ public class GazeCoinEthAPI
             }); 
         };
         l1BalanceTimer.Start();
-    }
-
-    public static HDWallet Wallet
-    {
-        get; set;
     }
 
     public class Balances

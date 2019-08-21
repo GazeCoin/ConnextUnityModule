@@ -62,26 +62,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\GCM\BlockChain\Account.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Balance.cs" />
-    <Compile Include="Assets\GCM\BlockChain\BlockChainController.cs" />
-    <Compile Include="Assets\GCM\BlockChain\ButtonHandler.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Connext\ChannelState.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Connext\ConnextAuth.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Connext\ConnextClient.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Connext\HDWallet.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Connext\PaymentRequest.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Connext\PurchasePayment.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Connext\RequestDeposit.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Connext\SignedDepositRequest.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Connext\SyncResult.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Connext\Utils.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Contracts\ChannelManagerContract.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Contracts\ERC20Token.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Contracts\GazeCoinMultiverseContract.cs" />
-    <Compile Include="Assets\GCM\BlockChain\GazeCoinEthAPI.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Multiverse\Apartment.cs" />
-    <Compile Include="Assets\GCM\BlockChain\Payment.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Account.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Balance.cs" />
+    <Compile Include="Assets\GCM\Blockchain\BlockChainController.cs" />
+    <Compile Include="Assets\GCM\Blockchain\ButtonHandler.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Connext\ChannelState.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Connext\ConnextAuth.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Connext\ConnextClient.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Connext\HDWallet.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Connext\PaymentRequest.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Connext\PurchasePayment.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Connext\RequestDeposit.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Connext\SignedDepositRequest.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Connext\SyncResult.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Connext\Utils.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Contracts\ChannelManagerContract.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Contracts\ERC20Token.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Contracts\GazeCoinMultiverseContract.cs" />
+    <Compile Include="Assets\GCM\Blockchain\GazeCoinEthAPI.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Multiverse\Apartment.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Payment.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

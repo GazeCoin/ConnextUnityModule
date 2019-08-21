@@ -28,8 +28,7 @@ public class ConnextClient
         public string tokenAddress;
     }
 
-    private static string connextHubUrl = "https://hub.gazecoin.xyz";
-    //private static HttpClient client = new HttpClient();
+    private const string CONNEXT_HUB_URL = "https://hub.gazecoin.xyz";
     private static Config config = new Config();
     private static string address; // Wallet address, as string
     private static Wallet wallet;
@@ -63,7 +62,7 @@ public class ConnextClient
         };
 
         // Get connext config
-        Utils.WebRequest request = new Utils.WebRequest(connextHubUrl + "/config", "GET");
+        Utils.WebRequest request = new Utils.WebRequest(CONNEXT_HUB_URL + "/config", "GET");
         await request.DoRequest();
 
         if (!request.IsSuccess())
@@ -92,7 +91,7 @@ public class ConnextClient
     {
         //var request = new HttpRequestMessage();
         Debug.Log("Requesting nonce for " + address);
-        Utils.WebRequest request = new Utils.WebRequest(connextHubUrl + "/nonce", "GET");
+        Utils.WebRequest request = new Utils.WebRequest(CONNEXT_HUB_URL + "/nonce", "GET");
         auth.AddAuthHeaders(request);
         await request.DoRequest();
         if (!request.IsSuccess())
@@ -110,7 +109,7 @@ public class ConnextClient
     public async Task FetchChannelState()
     {
         Debug.Log("FetchChannelState");
-        Utils.WebRequest request = new Utils.WebRequest(connextHubUrl + "/channel/" + address + "/latest-no-pending", "GET");
+        Utils.WebRequest request = new Utils.WebRequest(CONNEXT_HUB_URL + "/channel/" + address + "/latest-no-pending", "GET");
         auth.AddAuthHeaders(request);
         await request.DoRequest();
         if (!request.IsSuccess())
@@ -145,21 +144,23 @@ public class ConnextClient
         string jsonRequest = JsonConvert.SerializeObject(rd);
         Debug.Log("Deposit Request:" + jsonRequest);
 
-        //var request = new HttpRequestMessage(HttpMethod.Post, "/channel/" + address + "/request-deposit");
-        //request.Content = new StringContent(jsonRequest, System.Text.Encoding.UTF8, "application/json");
-        //HttpResponseMessage response = await client.SendAsync(request);
-        //if (!response.IsSuccessStatusCode)
-        //{
-        //    throw new Exception("Connext deposit request failed." + response.ReasonPhrase);
-        //}
-        //var bal = await response.Content.ReadAsStringAsync();
-        //channelState = JsonConvert.DeserializeObject<ChannelState>(bal);
-        //Debug.Log("balance result: " + channelState.getBalanceEthHub()); 
+        Utils.WebRequest request = new Utils.WebRequest(CONNEXT_HUB_URL + "/channel/" + address + "/request-deposit", "POST");
+        request.SetBody(jsonRequest);
+        auth.AddAuthHeaders(request);
+        await request.DoRequest();
+        if (!request.IsSuccess())
+        {
+            throw new Exception("Connext deposit request failed." + request.ReasonMessage);
+        }
+        var bal = request.Response;
+
+        channelState = JsonConvert.DeserializeObject<ChannelState>(bal);
+        Debug.Log("balance result: " + channelState.getBalanceEthHub());
     }
 
     public async Task HubSync()
     {
-        Utils.WebRequest request = new Utils.WebRequest(String.Format("{0}/channel/{1}/sync?lastChanTx={2}&lastThreadUpdateId={3}", connextHubUrl, address, channelTxCount, channelThreadCount), "GET");
+        Utils.WebRequest request = new Utils.WebRequest(String.Format("{0}/channel/{1}/sync?lastChanTx={2}&lastThreadUpdateId={3}", CONNEXT_HUB_URL, address, channelTxCount, channelThreadCount), "GET");
         auth.AddAuthHeaders(request);
         await request.DoRequest();
         if (!request.IsSuccess())
@@ -168,12 +169,6 @@ public class ConnextClient
         }
         var sync = request.Response;
 
-        //HttpResponseMessage response = await client.GetAsync(
-        //    String.Format("/channel/{0}/sync?lastChanTx={1}&lastThreadUpdateId={2}", address, channelTxCount, channelThreadCount));
-        //if (!response.IsSuccessStatusCode)
-        //{
-        //    throw new Exception("Connext sync request failed." + response.ReasonPhrase);
-        //}
         var syncResult = JsonConvert.DeserializeObject<SyncResult>(sync);
         Debug.Log("sync result: " + sync);
 
@@ -185,7 +180,7 @@ public class ConnextClient
                 SyncResult.UpdateDetails update = syncResult.updates[0].update;
                 if ("ProposePendingDeposit".Equals(update.reason))
                 {
-                    ProposePendingDeposit(update);
+                    await ProposePendingDeposit(update);
                 }
                 // TODO: handle other reason types
                 //TODO: handle > 1 update
@@ -218,10 +213,10 @@ public class ConnextClient
         Debug.Log("GasPrice " + gasPrice.ToString());
 
         // Generate token allowance and approve txs
-        if (UInt32.Parse(update.args.depositTokenUser) > 0)
+        if (UInt64.Parse(update.args.depositTokenUser) > 0)
         {
             var tokenService = new Nethereum.StandardTokenEIP20.StandardTokenService(web3, config.tokenAddress);
-            var receipt = await tokenService.ApproveRequestAndWaitForReceiptAsync(config.contractAddress, UInt32.Parse(update.args.depositTokenUser));
+            var receipt = await tokenService.ApproveRequestAndWaitForReceiptAsync(config.contractAddress, UInt64.Parse(update.args.depositTokenUser));
             Debug.Log("Approve request completed. " + receipt);
         }
 
@@ -242,8 +237,6 @@ public class ConnextClient
         //};
         //var txReceipt = await balHandler.QueryDeserializingToObjectAsync<ChannelManagerContract.GetChannelBalances, ChannelManagerContract.ChannelBalances>(fm);
         //Debug.Log("Deposit requested from channelManager contract. " + txReceipt.TokenTotal);
-        
-
     }
 
     private string SignChannelStateHash(ChannelState state)
