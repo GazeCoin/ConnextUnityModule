@@ -124,7 +124,7 @@ public class GazeCoinEthAPI
 
     public void RequestCollateral()
     {
-        //await connext.ReuestCollateral TODO
+        //await connext.RequestCollateral TODO
         Collateralised.Invoke();
     }
 
@@ -155,19 +155,19 @@ public class GazeCoinEthAPI
         // Get Connext channel state.
         l2StateCheckTimer = new Timer(L2_STATE_CHECK_PERIOD);
         l2StateCheckTimer.Elapsed += async ( sender, e ) => {
-  //          await connext.FetchChannelState();
+            await connext.FetchChannelState();
         };
         l2StateCheckTimer.Start();
 
         // Check account balance on mainnet
         l1BalanceTimer = new Timer(L1_BALANCE_CHECK_PERIOD);
         l1BalanceTimer.Elapsed += (sender, e) => {
-            /*_balance.PeriodicBalanceRequest(
+            _balance.PeriodicBalanceRequest(
             ETH_NODE_URL,
             Account.Address, (balance) => {
                 ethBalance = balance;
                 Debug.Log("L1 balance is " + balance);
-            }); */
+            }); 
         };
         l1BalanceTimer.Start();
     }

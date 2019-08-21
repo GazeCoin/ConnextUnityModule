@@ -18,7 +18,6 @@ public class HDWallet
             words = new Mnemonic(Wordlist.English, WordCount.Twelve);
             using (StreamWriter sw = File.CreateText(keystore))
             {
-
                 sw.WriteLine(words.ToString());
             }
         }

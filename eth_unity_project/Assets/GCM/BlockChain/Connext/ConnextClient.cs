@@ -109,6 +109,7 @@ public class ConnextClient
 
     public async Task FetchChannelState()
     {
+        Debug.Log("FetchChannelState");
         Utils.WebRequest request = new Utils.WebRequest(connextHubUrl + "/channel/" + address + "/latest-no-pending", "GET");
         auth.AddAuthHeaders(request);
         await request.DoRequest();
@@ -117,12 +118,6 @@ public class ConnextClient
             throw new Exception("Connext balance request failed." + request.ReasonMessage);
         }
         var bal = request.Response;
-        //HttpResponseMessage response = await client.GetAsync("/channel/" + address + "/latest-no-pending");
-        //if (!response.IsSuccessStatusCode)
-        //{
-        //    throw new Exception("Connext balance request failed." + response.ReasonPhrase);
-        //}
-        //var bal = await response.Content.ReadAsStringAsync();
         Debug.Log("channel state: " + bal);
         channelState = JsonConvert.DeserializeObject<ChannelState>(bal);
         Debug.Log("balance result: " + channelState.getBalanceEthHub()); 
