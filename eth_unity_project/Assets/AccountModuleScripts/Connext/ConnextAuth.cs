@@ -7,44 +7,31 @@ using UnityEngine.Networking;
 
 class ConnextAuth
 {
-    public string address;
-    private string nonce;
-    private string signature;
+    public string Address;
+    public string Nonce { get; set; }
+    public string Signature { get; protected set; }
+    private bool IsSigned;
 
     public void AddAuthHeaders(Utils.WebRequest req)
     {
-        Debug.Log("setting header. sig: " + signature);
-        //var headers = req.Headers;
-        req.AddHeader("x-address", address);
-        req.AddHeader("x-nonce", nonce);
-        req.AddHeader("x-signature", signature);
+        if (!IsSigned && Nonce != null)
+        {
+            Sign();
+        }
+        Debug.Log("setting header. sig: " + Signature);
+        if (Address != null) req.AddHeader("x-address", Address);
+        if (Nonce != null) req.AddHeader("x-nonce", Nonce);
+        if (Signature != null) req.AddHeader("x-signature", Signature);
     }
-    //public void AddAuthHeaders(HttpWebRequest req)
-    //{
-    //    Debug.Log("setting header. sig: " + signature);
-    //    var headers = req.Headers;
-    //    headers.Add("x-address", address);
-    //    headers.Add("x-nonce", nonce);
-    //    headers.Add("x-signature", signature);
-    //}
 
-    //public void AddAuthHeaders(HttpClient client)
-    //{
-    //    Debug.Log("setting header. sig: " + signature);
-    //    var headers = client.DefaultRequestHeaders;
-    //    headers.Add("x-address", address);
-    //    headers.Add("x-nonce", nonce);
-    //    headers.Add("x-signature", signature);
-    //}
-
-
-    // Set nonce and sign it to get signature.
-    public void SetNonce(string nonce)
+    private void Sign()
     {
-        this.nonce = nonce;
+        this.Signature = HDWallet.Sign(Nonce);
+        IsSigned = true;
     }
 
-    public class Nonce
+
+    public class NonceSerialiser
     {
         public string nonce;
     }

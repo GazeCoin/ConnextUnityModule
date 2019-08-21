@@ -59,7 +59,7 @@ public class ConnextClient
         address = wallet.GetAccount(0).Address;
         auth = new ConnextAuth
         {
-            address = address
+            Address = address
         };
 
         // Get connext config
@@ -92,9 +92,6 @@ public class ConnextClient
     {
         //var request = new HttpRequestMessage();
         Debug.Log("Requesting nonce for " + address);
-        //request.RequestUri = new Uri(connextHubUrl + "/nonce");
-        //request.Method = HttpMethod.Get;
-        //HttpResponseMessage response = await client.SendAsync(request);
         Utils.WebRequest request = new Utils.WebRequest(connextHubUrl + "/nonce", "GET");
         auth.AddAuthHeaders(request);
         await request.DoRequest();
@@ -103,8 +100,8 @@ public class ConnextClient
             throw new Exception("Connext auth request failed." + request.ReasonMessage);
         }
         var authJson = request.Response;
-        ConnextAuth.Nonce nonce = JsonConvert.DeserializeObject<ConnextAuth.Nonce>(authJson);
-        auth.SetNonce(nonce.nonce);
+        ConnextAuth.NonceSerialiser nonce = JsonConvert.DeserializeObject<ConnextAuth.NonceSerialiser>(authJson);
+        auth.Nonce = nonce.nonce;
         Debug.Log("auth nonce: " + nonce.nonce);
         // Set auth headers for future use.
         //auth.AddAuthHeaders(client); 
@@ -167,30 +164,38 @@ public class ConnextClient
 
     public async Task HubSync()
     {
+        Utils.WebRequest request = new Utils.WebRequest(String.Format("{0}/channel/{1}/sync?lastChanTx={2}&lastThreadUpdateId={3}", connextHubUrl, address, channelTxCount, channelThreadCount), "GET");
+        auth.AddAuthHeaders(request);
+        await request.DoRequest();
+        if (!request.IsSuccess())
+        {
+            throw new Exception("Connext sync request failed." + request.ReasonMessage);
+        }
+        var sync = request.Response;
+
         //HttpResponseMessage response = await client.GetAsync(
         //    String.Format("/channel/{0}/sync?lastChanTx={1}&lastThreadUpdateId={2}", address, channelTxCount, channelThreadCount));
         //if (!response.IsSuccessStatusCode)
         //{
         //    throw new Exception("Connext sync request failed." + response.ReasonPhrase);
         //}
-        //var sync = await response.Content.ReadAsStringAsync();
-        //var syncResult = JsonConvert.DeserializeObject<SyncResult>(sync);
-        //Debug.Log("sync result: " + sync);
+        var syncResult = JsonConvert.DeserializeObject<SyncResult>(sync);
+        Debug.Log("sync result: " + sync);
 
-        //// TODO: handle states other than CS_OPEN
-        //if ("CS_OPEN".Equals(syncResult.status))
-        //{
-        //    if (syncResult.updates.Length > 0)
-        //    {
-        //        SyncResult.UpdateDetails update = syncResult.updates[0].update;
-        //        if ("ProposePendingDeposit".Equals(update.reason))
-        //        {
-        //            ProposePendingDeposit(update);
-        //        }
-        //        // TODO: handle other reason types
-        //        //TODO: handle > 1 update
-        //    }
-        //}
+        // TODO: handle states other than CS_OPEN
+        if ("CS_OPEN".Equals(syncResult.status))
+        {
+            if (syncResult.updates.Length > 0)
+            {
+                SyncResult.UpdateDetails update = syncResult.updates[0].update;
+                if ("ProposePendingDeposit".Equals(update.reason))
+                {
+                    ProposePendingDeposit(update);
+                }
+                // TODO: handle other reason types
+                //TODO: handle > 1 update
+            }
+        }
     }
 
     private async Task ProposePendingDeposit(SyncResult.UpdateDetails update)

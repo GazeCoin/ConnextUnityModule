@@ -1,14 +1,9 @@
 ﻿using NBitcoin;
-using Nethereum.Web3;
-using Nethereum.Web3.Accounts;
-using Nethereum.Util;
-using Nethereum.Hex.HexConvertors.Extensions;
 using Nethereum.HdWallet;
 using UnityEngine;
 using System;
 using System.IO;
 using Nethereum.Signer;
-//using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 public class HDWallet
 {
@@ -98,7 +93,16 @@ public class HDWallet
         {
             data = data.Substring(2);
         }
-        //SoapHexBinary shb = SoapHexBinary.Parse(data);
-        return null; // shb.Value;
+        byte[] bytes = StringToByteArray(data);
+        return bytes;
+    }
+
+    public static byte[] StringToByteArray(String hex)
+    {
+        int NumberChars = hex.Length;
+        byte[] bytes = new byte[NumberChars / 2];
+        for (int i = 0; i < NumberChars; i += 2)
+            bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+        return bytes;
     }
 }
