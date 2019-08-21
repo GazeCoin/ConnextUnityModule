@@ -29,7 +29,7 @@ public class ConnextClient
     }
 
     private static string connextHubUrl = "https://hub.gazecoin.xyz";
-    private static HttpClient client = new HttpClient();
+    //private static HttpClient client = new HttpClient();
     private static Config config = new Config();
     private static string address; // Wallet address, as string
     private static Wallet wallet;
@@ -52,8 +52,8 @@ public class ConnextClient
 
     public async Task Init()
     {
-        client.BaseAddress = new Uri(connextHubUrl);
-        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+        //client.BaseAddress = new Uri(connextHubUrl);
+        //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
         wallet = HDWallet.getInstance();
         address = wallet.GetAccount(0).Address;
@@ -63,12 +63,14 @@ public class ConnextClient
         };
 
         // Get connext config
-        HttpResponseMessage response = await client.GetAsync("/config");
-        if (!response.IsSuccessStatusCode)
+        Utils.WebRequest request = new Utils.WebRequest(connextHubUrl + "/config", "GET");
+        await request.DoRequest();
+
+        if (!request.IsSuccess())
         {
             throw new Exception("Connext hub not responding.");
         }
-        var configJson = await response.Content.ReadAsStringAsync();
+        var configJson = request.Response;
         Debug.Log("connext config: " + configJson);
         config = JsonConvert.DeserializeObject<Config>(configJson);
 
@@ -82,37 +84,48 @@ public class ConnextClient
         await FetchChannelState();
         channelTxCount = channelState.txCountChain;
 
-        await HubSync(); 
+        await HubSync();
+
     }
 
     public async Task Authorisation()
     {
-        var request = new HttpRequestMessage();
+        //var request = new HttpRequestMessage();
         Debug.Log("Requesting nonce for " + address);
+        //request.RequestUri = new Uri(connextHubUrl + "/nonce");
+        //request.Method = HttpMethod.Get;
+        //HttpResponseMessage response = await client.SendAsync(request);
+        Utils.WebRequest request = new Utils.WebRequest(connextHubUrl + "/nonce", "GET");
         auth.AddAuthHeaders(request);
-        request.RequestUri = new Uri(connextHubUrl + "/nonce");
-        request.Method = HttpMethod.Get;
-        HttpResponseMessage response = await client.SendAsync(request);
-        if (!response.IsSuccessStatusCode)
+        await request.DoRequest();
+        if (!request.IsSuccess())
         {
-            throw new Exception("Connext auth request failed." + response.ReasonPhrase);
+            throw new Exception("Connext auth request failed." + request.ReasonMessage);
         }
-        var authJson = await response.Content.ReadAsStringAsync();
+        var authJson = request.Response;
         ConnextAuth.Nonce nonce = JsonConvert.DeserializeObject<ConnextAuth.Nonce>(authJson);
         auth.SetNonce(nonce.nonce);
         Debug.Log("auth nonce: " + nonce.nonce);
         // Set auth headers for future use.
-        auth.AddAuthHeaders(client); 
+        //auth.AddAuthHeaders(client); 
     }
 
     public async Task FetchChannelState()
     {
-        HttpResponseMessage response = await client.GetAsync("/channel/" + address + "/latest-no-pending");
-        if (!response.IsSuccessStatusCode)
+        Utils.WebRequest request = new Utils.WebRequest(connextHubUrl + "/channel/" + address + "/latest-no-pending", "GET");
+        auth.AddAuthHeaders(request);
+        await request.DoRequest();
+        if (!request.IsSuccess())
         {
-            throw new Exception("Connext balance request failed." + response.ReasonPhrase);
+            throw new Exception("Connext balance request failed." + request.ReasonMessage);
         }
-        var bal = await response.Content.ReadAsStringAsync();
+        var bal = request.Response;
+        //HttpResponseMessage response = await client.GetAsync("/channel/" + address + "/latest-no-pending");
+        //if (!response.IsSuccessStatusCode)
+        //{
+        //    throw new Exception("Connext balance request failed." + response.ReasonPhrase);
+        //}
+        //var bal = await response.Content.ReadAsStringAsync();
         Debug.Log("channel state: " + bal);
         channelState = JsonConvert.DeserializeObject<ChannelState>(bal);
         Debug.Log("balance result: " + channelState.getBalanceEthHub()); 
@@ -140,44 +153,44 @@ public class ConnextClient
         string jsonRequest = JsonConvert.SerializeObject(rd);
         Debug.Log("Deposit Request:" + jsonRequest);
 
-        var request = new HttpRequestMessage(HttpMethod.Post, "/channel/" + address + "/request-deposit");
-        request.Content = new StringContent(jsonRequest, System.Text.Encoding.UTF8, "application/json");
-        HttpResponseMessage response = await client.SendAsync(request);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception("Connext deposit request failed." + response.ReasonPhrase);
-        }
-        var bal = await response.Content.ReadAsStringAsync();
-        channelState = JsonConvert.DeserializeObject<ChannelState>(bal);
-        Debug.Log("balance result: " + channelState.getBalanceEthHub()); 
+        //var request = new HttpRequestMessage(HttpMethod.Post, "/channel/" + address + "/request-deposit");
+        //request.Content = new StringContent(jsonRequest, System.Text.Encoding.UTF8, "application/json");
+        //HttpResponseMessage response = await client.SendAsync(request);
+        //if (!response.IsSuccessStatusCode)
+        //{
+        //    throw new Exception("Connext deposit request failed." + response.ReasonPhrase);
+        //}
+        //var bal = await response.Content.ReadAsStringAsync();
+        //channelState = JsonConvert.DeserializeObject<ChannelState>(bal);
+        //Debug.Log("balance result: " + channelState.getBalanceEthHub()); 
     }
 
     public async Task HubSync()
     {
-        HttpResponseMessage response = await client.GetAsync(
-            String.Format("/channel/{0}/sync?lastChanTx={1}&lastThreadUpdateId={2}", address, channelTxCount, channelThreadCount));
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception("Connext sync request failed." + response.ReasonPhrase);
-        }
-        var sync = await response.Content.ReadAsStringAsync();
-        var syncResult = JsonConvert.DeserializeObject<SyncResult>(sync);
-        Debug.Log("sync result: " + sync);
+        //HttpResponseMessage response = await client.GetAsync(
+        //    String.Format("/channel/{0}/sync?lastChanTx={1}&lastThreadUpdateId={2}", address, channelTxCount, channelThreadCount));
+        //if (!response.IsSuccessStatusCode)
+        //{
+        //    throw new Exception("Connext sync request failed." + response.ReasonPhrase);
+        //}
+        //var sync = await response.Content.ReadAsStringAsync();
+        //var syncResult = JsonConvert.DeserializeObject<SyncResult>(sync);
+        //Debug.Log("sync result: " + sync);
 
-        // TODO: handle states other than CS_OPEN
-        if ("CS_OPEN".Equals(syncResult.status))
-        {
-            if (syncResult.updates.Length > 0)
-            {
-                SyncResult.UpdateDetails update = syncResult.updates[0].update;
-                if ("ProposePendingDeposit".Equals(update.reason))
-                {
-//                    ProposePendingDeposit(update);
-                }
-                // TODO: handle other reason types
-                //TODO: handle > 1 update
-            }
-        }
+        //// TODO: handle states other than CS_OPEN
+        //if ("CS_OPEN".Equals(syncResult.status))
+        //{
+        //    if (syncResult.updates.Length > 0)
+        //    {
+        //        SyncResult.UpdateDetails update = syncResult.updates[0].update;
+        //        if ("ProposePendingDeposit".Equals(update.reason))
+        //        {
+        //            ProposePendingDeposit(update);
+        //        }
+        //        // TODO: handle other reason types
+        //        //TODO: handle > 1 update
+        //    }
+        //}
     }
 
     private async Task ProposePendingDeposit(SyncResult.UpdateDetails update)
@@ -222,13 +235,13 @@ public class ConnextClient
         var txReceipt = await updateHandler.SendRequestAndWaitForReceiptAsync(config.contractAddress, fm);
         Debug.Log("Deposit requested from channelManager contract. tx hash: " + txReceipt.TransactionHash.ToString());
 
-        var balHandler = web3.Eth.GetContractHandler(config.contractAddress);
-        ChannelManagerContract.GetChannelBalances fm = new ChannelManagerContract.GetChannelBalances() 
-        {
-            User = "0xc303b2169f64b636d143c6fb89e62506e451b0f3"  //account.Address
-        };
-        var txReceipt = await balHandler.QueryDeserializingToObjectAsync<ChannelManagerContract.GetChannelBalances, ChannelManagerContract.ChannelBalances>(fm);
-        Debug.Log("Deposit requested from channelManager contract. " + txReceipt.TokenTotal);
+        //var balHandler = web3.Eth.GetContractHandler(config.contractAddress);
+        //ChannelManagerContract.GetChannelBalances fm = new ChannelManagerContract.GetChannelBalances() 
+        //{
+        //    User = "0xc303b2169f64b636d143c6fb89e62506e451b0f3"  //account.Address
+        //};
+        //var txReceipt = await balHandler.QueryDeserializingToObjectAsync<ChannelManagerContract.GetChannelBalances, ChannelManagerContract.ChannelBalances>(fm);
+        //Debug.Log("Deposit requested from channelManager contract. " + txReceipt.TokenTotal);
         
 
     }

@@ -8,7 +8,7 @@ using UnityEngine;
 using System;
 using System.IO;
 using Nethereum.Signer;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
+//using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 public class HDWallet
 {
@@ -98,7 +98,7 @@ public class HDWallet
         {
             data = data.Substring(2);
         }
-        SoapHexBinary shb = SoapHexBinary.Parse(data);
-        return shb.Value;
+        //SoapHexBinary shb = SoapHexBinary.Parse(data);
+        return null; // shb.Value;
     }
 }

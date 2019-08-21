@@ -9,7 +9,7 @@ public class BlockChainController : MonoBehaviour {
     public Text AccountText;
     public Text balanceText;
     public delegate void ButtonClick();
-    //public Nethereum.Web3.Accounts.Account account;
+    public Nethereum.Web3.Accounts.Account account;
     private static BlockChainController bcc;
     private decimal ethBalance;
     private decimal tokenBalance;
@@ -22,7 +22,7 @@ public class BlockChainController : MonoBehaviour {
 
         gazeAPI = new GazeCoinEthAPI();
         gazeAPI.InitComplete.AddListener(InitComplete);
-        //await gazeAPI.Init();
+        gazeAPI.Init();
         // Start listeners
 
     }
@@ -30,10 +30,10 @@ public class BlockChainController : MonoBehaviour {
     void InitComplete(bool success)
     {
         Debug.Log("Init complete " + success);
-        if (success)
+        account = gazeAPI.Account;
+        if (account != null)
         {
-            //account = gazeAPI.Account;
-            //AccountText.text = "Address: " + account.Address.ToString();
+            AccountText.text = "Address: " + account.Address.ToString();
         }
     }
 
@@ -47,7 +47,7 @@ public class BlockChainController : MonoBehaviour {
         
         if (gazeAPI.IsReady())
         {
-            //balanceText.text = "Balance: " + gazeAPI.GetBalance("ETH") + " ETH/" + gazeAPI.GetBalance("DAI") + " DAI";
+            balanceText.text = "Balance: " + gazeAPI.GetBalance("ETH") + " ETH/" + gazeAPI.GetBalance("DAI") + " DAI";
         }
     }
 

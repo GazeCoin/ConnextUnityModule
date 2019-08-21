@@ -5,9 +5,13 @@
 /eth_unity_project/buildwin
 /eth_unity_project/Logs
 /eth_unity_project/obj/**
+/eth_unity_project/obj
 /eth_unity_project/Temp
 /eth_unity_project/.vs
 /eth_unity_project/Library
-/eth_unity_project/obj
+/eth_unity_project/Library/**
 /eth_unity_project/Packages
 /.vs
+/backup_assets_190821
+/webgl_test_2
+/testwebgl

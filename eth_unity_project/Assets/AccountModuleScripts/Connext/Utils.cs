@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Globalization;
 using System.Numerics;
+using UnityEngine;
+using UnityEngine.Networking;
 
 public class Utils
 {
@@ -103,6 +106,69 @@ public class Utils
             InsertBytes(bytes);
         }
 
+    }
+
+
+    public class WebRequest
+    {
+        public string Url { get; set; }
+        public string Method { get; set; }
+        private UnityWebRequest request;
+        public string Response { get; private set; }
+        public long ResponseCode { get; private set; }
+        public string ReasonMessage { get; private set; }
+
+        public WebRequest(string url, string method)
+        {
+            Url = url;
+            Method = method;
+            request = new UnityWebRequest();
+
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("Accept", "application/json");
+            request.downloadHandler = new DownloadHandlerBuffer();
+
+        }
+
+        public void AddHeader(string key, string value)
+        {
+            request.SetRequestHeader(key, value);
+        }
+
+        public IEnumerator DoRequest()
+        {
+            Debug.Log("UploadData");
+            request.url = Url;
+            request.method = Method;
+            yield return request.Send();
+            Debug.Log("Server response code: " + request.responseCode);
+
+            ResponseCode = request.responseCode;
+            Response = request.downloadHandler.text;
+            ReasonMessage = request.error;
+
+            // A 201 response code is expected on success
+            // if we don't get this code - handle the error.
+            //if (request.responseCode != 201)
+            //{
+            //    if (!string.IsNullOrEmpty(request.error))
+            //    {
+            //    }
+            //    // If error field empty but there is potentially body response text. eg. 400, 401:
+            //    else
+            //    {
+            //    }
+            //}
+
+            request.Dispose();
+
+            Debug.Log("Upload Complete");
+        }
+
+        public bool IsSuccess()
+        {
+            return (ResponseCode >= 200 && ResponseCode < 300) ;
+        }
     }
 
 }
