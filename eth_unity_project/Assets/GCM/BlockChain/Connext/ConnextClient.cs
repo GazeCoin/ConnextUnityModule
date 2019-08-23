@@ -41,6 +41,9 @@ public class ConnextClient
     private ChannelManagerContract channelManager;
     private Web3 web3;
     private string ethNodeUrl;
+    //private const string NATS_URL = "nats://demo.nats.io"; 
+    private const string NATS_URL = "wss://rinkeby.indra.connext.network:4222/api/messaging";
+    private MessagingClient mc;
 
     public ConnextClient(Web3 web3, Nethereum.Web3.Accounts.Account account, string url)
     {
@@ -49,7 +52,7 @@ public class ConnextClient
         this.ethNodeUrl = url;
     }
 
-    public async Task Init()
+    public void Init()
     {
         //client.BaseAddress = new Uri(connextHubUrl);
         //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
@@ -62,8 +65,8 @@ public class ConnextClient
         };
 
         // Get connext config
-        Utils.WebRequest request = new Utils.WebRequest(CONNEXT_HUB_URL + "/config", "GET");
-        await request.DoRequest();
+        /* Utils.WebRequest request = new Utils.WebRequest(CONNEXT_HUB_URL + "/config", "GET");
+        //await request.DoRequest();
 
         if (!request.IsSuccess())
         {
@@ -71,8 +74,12 @@ public class ConnextClient
         }
         var configJson = request.Response;
         Debug.Log("connext config: " + configJson);
-        config = JsonConvert.DeserializeObject<Config>(configJson);
+        config = JsonConvert.DeserializeObject<Config>(configJson); */
 
+        mc = new MessagingClient(NATS_URL);
+        mc.Connect();
+
+        /*
         // Get ERC20 token contract instance
         token = new ERC20Token(account, config.tokenAddress, ethNodeUrl);
         channelManager = new ChannelManagerContract(account, config.contractAddress, ethNodeUrl);
@@ -84,7 +91,7 @@ public class ConnextClient
         channelTxCount = channelState.txCountChain;
 
         await HubSync();
-
+        */
     }
 
     public async Task Authorisation()
@@ -176,7 +183,7 @@ public class ConnextClient
     public async Task UpdateHub(UpdateRequest[] updateRequest, long lastThreadUpdateId)
     {
         Debug.Log("Update hub");
-        string jsonRequest = "{\"lastThreadUpdateId:\" {0} }".Replace("{0}", txCountGlobal.ToString());
+        string jsonRequest = "{\"lastThreadUpdateId:\" {0} }".Replace("{0}", lastThreadUpdateId.ToString());
 
         Utils.WebRequest request = new Utils.WebRequest(CONNEXT_HUB_URL + "/channel/" + address + "/request-collateralization", "POST");
         request.SetBody(jsonRequest);
