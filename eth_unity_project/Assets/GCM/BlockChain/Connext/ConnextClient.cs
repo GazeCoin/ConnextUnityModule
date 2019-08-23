@@ -158,6 +158,37 @@ public class ConnextClient
         Debug.Log("balance result: " + channelState.getBalanceEthHub());
     }
 
+    public async Task RequestCollateral(long txCountGlobal)
+    {
+        Debug.Log("Requesting collateralisation");
+        string jsonRequest = "{\"lastChanTx:\" {0} }".Replace("{0}", txCountGlobal.ToString());
+
+        Utils.WebRequest request = new Utils.WebRequest(CONNEXT_HUB_URL + "/channel/" + address + "/request-collateralization", "POST");
+        request.SetBody(jsonRequest);
+        auth.AddAuthHeaders(request);
+        await request.DoRequest();
+        if (!request.IsSuccess())
+        {
+            throw new Exception("Collateral request failed." + request.ReasonMessage);
+        }
+        Debug.Log("Collateralization response" + request.Response.ToString());
+    }
+    public async Task UpdateHub(UpdateRequest[] updateRequest, long lastThreadUpdateId)
+    {
+        Debug.Log("Update hub");
+        string jsonRequest = "{\"lastThreadUpdateId:\" {0} }".Replace("{0}", txCountGlobal.ToString());
+
+        Utils.WebRequest request = new Utils.WebRequest(CONNEXT_HUB_URL + "/channel/" + address + "/request-collateralization", "POST");
+        request.SetBody(jsonRequest);
+        auth.AddAuthHeaders(request);
+        await request.DoRequest();
+        if (!request.IsSuccess())
+        {
+            throw new Exception("Collateral request failed." + request.ReasonMessage);
+        }
+        Debug.Log("Collateralization response" + request.Response.ToString());
+    }
+
     public async Task HubSync()
     {
         Utils.WebRequest request = new Utils.WebRequest(String.Format("{0}/channel/{1}/sync?lastChanTx={2}&lastThreadUpdateId={3}", CONNEXT_HUB_URL, address, channelTxCount, channelThreadCount), "GET");
@@ -215,9 +246,19 @@ public class ConnextClient
         // Generate token allowance and approve txs
         if (UInt64.Parse(update.args.depositTokenUser) > 0)
         {
-            var tokenService = new Nethereum.StandardTokenEIP20.StandardTokenService(web3, config.tokenAddress);
-            var receipt = await tokenService.ApproveRequestAndWaitForReceiptAsync(config.contractAddress, UInt64.Parse(update.args.depositTokenUser));
-            Debug.Log("Approve request completed. " + receipt);
+            try
+            {
+                Debug.Log("Token deposit - requesting approve");
+                var tokenService = new Nethereum.StandardTokenEIP20.StandardTokenService(web3, config.tokenAddress);
+
+                BigInteger allowance = await tokenService.AllowanceQueryAsync(channelState.user, config.contractAddress);
+                Debug.Log("Allowance: " + allowance.ToString());
+                var receipt = await tokenService.ApproveRequestAndWaitForReceiptAsync(config.contractAddress, BigInteger.Parse(update.args.depositTokenUser));
+                Debug.Log("Approve request completed. " + receipt);
+            } catch (Exception ex)
+            {
+                Debug.Log("Error submitting approve request." + ex.Message);
+            } 
         }
 
         // Invoke connext contract UserAuthorizedUpdate

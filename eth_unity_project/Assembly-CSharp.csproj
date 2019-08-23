@@ -75,6 +75,7 @@
     <Compile Include="Assets\GCM\Blockchain\Connext\RequestDeposit.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\SignedDepositRequest.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\SyncResult.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Connext\UpdateRequest.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\Utils.cs" />
     <Compile Include="Assets\GCM\Blockchain\Contracts\ChannelManagerContract.cs" />
     <Compile Include="Assets\GCM\Blockchain\Contracts\ERC20Token.cs" />
