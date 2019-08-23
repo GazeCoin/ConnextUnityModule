@@ -52,7 +52,7 @@ public class ConnextClient
         this.ethNodeUrl = url;
     }
 
-    public void Init()
+    public async Task Init()
     {
         //client.BaseAddress = new Uri(connextHubUrl);
         //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
@@ -64,7 +64,14 @@ public class ConnextClient
             Address = address
         };
 
+        mc = new MessagingClient(NATS_URL);
+        mc.Connect();
+
         // Get connext config
+        Debug.Log("get config");
+        string configJson = mc.Send("config.get");
+        Debug.Log("connext config: " + configJson);
+
         /* Utils.WebRequest request = new Utils.WebRequest(CONNEXT_HUB_URL + "/config", "GET");
         //await request.DoRequest();
 
@@ -73,11 +80,8 @@ public class ConnextClient
             throw new Exception("Connext hub not responding.");
         }
         var configJson = request.Response;
-        Debug.Log("connext config: " + configJson);
         config = JsonConvert.DeserializeObject<Config>(configJson); */
 
-        mc = new MessagingClient(NATS_URL);
-        mc.Connect();
 
         /*
         // Get ERC20 token contract instance

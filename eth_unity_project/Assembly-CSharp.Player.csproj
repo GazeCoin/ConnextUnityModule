@@ -978,7 +978,7 @@
     <Compile Include="Assets\GCM\Blockchain\Connext\ConnextAuth.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\ConnextClient.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\HDWallet.cs" />
-    <Compile Include="Assets\GCM\Blockchain\Connext\NatsClient.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Connext\MessagingClient.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\PaymentRequest.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\PurchasePayment.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\RequestDeposit.cs" />
