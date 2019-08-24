@@ -1,13 +1,7 @@
 ﻿using System;
 
-public class ConnextConfig
+public class ConnextConfig : NatsResponse<ConnextConfig.ConfigResponse>
 {
-    public string err;
-    public ConfigResponse response;
-
-    public ConnextConfig()
-	{
-	}
 
     public class ConfigResponse
     {

@@ -34,10 +34,10 @@ public class MessagingClient
         {
             connection = new ConnectionFactory().CreateConnection(opts);
             Debug.Log("NATS connection ID: " + connection.ConnectedId);
-            string inbox = connection.NewInbox();
+            //string inbox = connection.NewInbox();
             //Debug.Log("New inbox" + i);
             //string inbox = "_INBOX.S0C7SYBROBELA5GZSTF70S";// + NATS.Client.NUID.NextGlobal;
-            Debug.Log(inbox);
+            Debug.Log("connection state " + connection.State.ToString());
 
             //EventHandler<MsgHandlerEventArgs> msgHandler = (sender, args) =>
             //{
@@ -65,20 +65,27 @@ public class MessagingClient
 
     }
 
-    public String Send(string subject, string data)
+    public String Send(string subject, string data, bool includeUuid)
     {
         // TODO - Put data into JSON
-        //Guid uuid = Guid.NewGuid();
-        //string sData = "{ id: \"{uuid}\" }".Replace("{uuid}", uuid.ToString());
-        string sData = "{ }";
-        Debug.Log(sData);
+        string sData;
+        if (includeUuid)
+        {
+            Guid uuid = Guid.NewGuid();
+            sData = "{\"id\":\"{uuid}\"}".Replace("{uuid}", uuid.ToString());
+        }
+        else
+        {
+            sData = "{ }";
+        }
+        Debug.Log(subject + " " + sData);
         Msg response = connection.Request(subject, Encoding.ASCII.GetBytes(sData), 5000);
         Debug.Log("request response " + response.ToString());
         return Encoding.ASCII.GetString(response.Data);
     }
 
-    public String Send(string subject)
+    public String Send(string subject, bool includeUuid)
     {
-        return this.Send(subject, "");
+        return this.Send(subject, "", includeUuid);
     }
 }

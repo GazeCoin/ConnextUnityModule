@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-//using System.Net.Http;
 using UnityEngine;
 using Nethereum.HdWallet;
 using System.Threading.Tasks;
@@ -44,6 +43,7 @@ public class ConnextClient
     //private const string NATS_URL = "nats://demo.nats.io"; 
     private const string NATS_URL = "wss://rinkeby.indra.connext.network:4222/api/messaging";
     private MessagingClient mc;
+    private string NodePublicIdentifier;
 
     public ConnextClient(Web3 web3, Nethereum.Web3.Accounts.Account account, string url)
     {
@@ -69,19 +69,23 @@ public class ConnextClient
 
         // Get connext config
         Debug.Log("get config");
-        string configJson = mc.Send("config.get");
+        string configJson = mc.Send("config.get", true);
         Debug.Log("connext config: " + configJson);
-
-        /* Utils.WebRequest request = new Utils.WebRequest(CONNEXT_HUB_URL + "/config", "GET");
-        //await request.DoRequest();
-
-        if (!request.IsSuccess())
+        config = JsonConvert.DeserializeObject<ConnextConfig>(configJson);
+        if (config.err == null || config.err.Length == 0)
         {
-            throw new Exception("Connext hub not responding.");
-        }
-        var configJson = request.Response; */
-        config = JsonConvert.DeserializeObject<ConnextConfig>(configJson); 
+            Debug.Log("network " + config.response.ethNetwork.name);
+            NodePublicIdentifier = config.response.nodePublicIdentifier;
 
+            Debug.Log("get app registry");
+            configJson = mc.Send("app-registry", true);
+            Debug.Log("app-registry: " + configJson);
+
+        }
+        else
+        {
+            Debug.Log("Error getting config: " + config.err);
+        }
 
         /*
         // Get ERC20 token contract instance
@@ -260,11 +264,11 @@ public class ConnextClient
             try
             {
                 Debug.Log("Token deposit - requesting approve");
-                var tokenService = new Nethereum.StandardTokenEIP20.StandardTokenService(web3, config.tokenAddress);
+                var tokenService = new Nethereum.StandardTokenEIP20.StandardTokenService(web3, config.response.contractAddresses.Token);
 
-                BigInteger allowance = await tokenService.AllowanceQueryAsync(channelState.user, config.contractAddress);
+                BigInteger allowance = await tokenService.AllowanceQueryAsync(channelState.user, config.response.contractAddresses.SimpleTwoPartySwapApp);
                 Debug.Log("Allowance: " + allowance.ToString());
-                var receipt = await tokenService.ApproveRequestAndWaitForReceiptAsync(config.contractAddress, BigInteger.Parse(update.args.depositTokenUser));
+                var receipt = await tokenService.ApproveRequestAndWaitForReceiptAsync(config.response.contractAddresses.SimpleTwoPartySwapApp, BigInteger.Parse(update.args.depositTokenUser));
                 Debug.Log("Approve request completed. " + receipt);
             } catch (Exception ex)
             {
@@ -279,7 +283,7 @@ public class ConnextClient
         fm.GasPrice = gasPrice;
         fm.Gas = new BigInteger(1000000);
         //var txReceipt = await updateHandler.SendRequestAsync(config.contractAddress, fm);
-        var txReceipt = await updateHandler.SendRequestAndWaitForReceiptAsync(config.contractAddress, fm);
+        var txReceipt = await updateHandler.SendRequestAndWaitForReceiptAsync(config.response.contractAddresses.SimpleTwoPartySwapApp, fm);
         Debug.Log("Deposit requested from channelManager contract. tx hash: " + txReceipt.TransactionHash.ToString());
 
         //var balHandler = web3.Eth.GetContractHandler(config.contractAddress);

@@ -72,6 +72,7 @@
     <Compile Include="Assets\GCM\Blockchain\Connext\ConnextConfig.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\HDWallet.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\MessagingClient.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Connext\NatsResponse.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\PaymentRequest.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\PurchasePayment.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\RequestDeposit.cs" />
