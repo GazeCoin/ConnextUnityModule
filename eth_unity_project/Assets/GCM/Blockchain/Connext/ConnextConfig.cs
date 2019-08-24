@@ -9,7 +9,6 @@ public class ConnextConfig : NatsResponse<ConnextConfig.ConfigResponse>
         public EthNetwork ethNetwork;
         public Messaging messaging;
         public string nodePublicIdentifier;
-
     }
 
     public class ContractAddresses

@@ -974,6 +974,7 @@
     <Compile Include="Assets\GCM\Blockchain\Balance.cs" />
     <Compile Include="Assets\GCM\Blockchain\BlockChainController.cs" />
     <Compile Include="Assets\GCM\Blockchain\ButtonHandler.cs" />
+    <Compile Include="Assets\GCM\Blockchain\Connext\AppRegistry.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\ChannelState.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\ConnextAuth.cs" />
     <Compile Include="Assets\GCM\Blockchain\Connext\ConnextClient.cs" />

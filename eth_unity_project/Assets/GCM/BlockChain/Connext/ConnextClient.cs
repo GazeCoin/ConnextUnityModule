@@ -29,6 +29,7 @@ public class ConnextClient
 
     private const string CONNEXT_HUB_URL = "https://hub.gazecoin.xyz";
     private static ConnextConfig config;
+    private AppRegistry appRegistry;
     private static string address; // Wallet address, as string
     private static Wallet wallet;
     private ConnextAuth auth;
@@ -72,7 +73,7 @@ public class ConnextClient
         string configJson = mc.Send("config.get", true);
         Debug.Log("connext config: " + configJson);
         config = JsonConvert.DeserializeObject<ConnextConfig>(configJson);
-        if (config.err == null || config.err.Length == 0)
+        if (!config.IsError())
         {
             Debug.Log("network " + config.response.ethNetwork.name);
             NodePublicIdentifier = config.response.nodePublicIdentifier;
@@ -80,7 +81,13 @@ public class ConnextClient
             Debug.Log("get app registry");
             configJson = mc.Send("app-registry", true);
             Debug.Log("app-registry: " + configJson);
+            appRegistry = JsonConvert.DeserializeObject<AppRegistry>(configJson);
+            if (!appRegistry.IsError())
+            {
+                Debug.Log("Apps registered " + appRegistry.response.Length);
+            }
 
+            // 
         }
         else
         {
