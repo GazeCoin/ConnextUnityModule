@@ -29,7 +29,7 @@ public class ConnextClient
     }
 
     private const string CONNEXT_HUB_URL = "https://hub.gazecoin.xyz";
-    private static Config config = new Config();
+    private static ConnextConfig config;
     private static string address; // Wallet address, as string
     private static Wallet wallet;
     private ConnextAuth auth;
@@ -79,8 +79,8 @@ public class ConnextClient
         {
             throw new Exception("Connext hub not responding.");
         }
-        var configJson = request.Response;
-        config = JsonConvert.DeserializeObject<Config>(configJson); */
+        var configJson = request.Response; */
+        config = JsonConvert.DeserializeObject<ConnextConfig>(configJson); 
 
 
         /*

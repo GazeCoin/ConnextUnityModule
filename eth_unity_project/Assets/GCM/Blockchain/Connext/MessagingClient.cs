@@ -25,24 +25,26 @@ public class MessagingClient
         opts = ConnectionFactory.GetDefaultOptions();
         opts.Url = Url;
         opts.Servers = new[] { Url };
-        opts.Verbose = false;
+        opts.Verbose = true;
         opts.Pedantic = false;
-        opts.Name = "GazeCoin";
+        //opts.Name = "GazeCoin";
         // TODO: creds?
 
         try
         {
             connection = new ConnectionFactory().CreateConnection(opts);
             Debug.Log("NATS connection ID: " + connection.ConnectedId);
-            string inbox = "_INBOX.S0C7SYBROBELA5GZSTF70S";// + NATS.Client.NUID.NextGlobal;
+            string inbox = connection.NewInbox();
+            //Debug.Log("New inbox" + i);
+            //string inbox = "_INBOX.S0C7SYBROBELA5GZSTF70S";// + NATS.Client.NUID.NextGlobal;
             Debug.Log(inbox);
 
-            EventHandler<MsgHandlerEventArgs> msgHandler = (sender, args) =>
-            {
-                Debug.Log("sub handler: " + sender + args);
-            };
-            IAsyncSubscription sub = connection.SubscribeAsync(inbox, msgHandler);
-            sub.Start();
+            //EventHandler<MsgHandlerEventArgs> msgHandler = (sender, args) =>
+            //{
+            //    Debug.Log("sub handler: " + sender + args);
+            //};
+            //IAsyncSubscription sub = connection.SubscribeAsync(inbox, msgHandler);
+            //sub.Start();
 
         } catch (Exception ex)
         {
@@ -66,12 +68,13 @@ public class MessagingClient
     public String Send(string subject, string data)
     {
         // TODO - Put data into JSON
-        Guid uuid = Guid.NewGuid();
-        string sData = "{ id: \"{uuid}\" }".Replace("{uuid}", uuid.ToString());
+        //Guid uuid = Guid.NewGuid();
+        //string sData = "{ id: \"{uuid}\" }".Replace("{uuid}", uuid.ToString());
+        string sData = "{ }";
         Debug.Log(sData);
         Msg response = connection.Request(subject, Encoding.ASCII.GetBytes(sData), 5000);
         Debug.Log("request response " + response.ToString());
-        return response.Reply;
+        return Encoding.ASCII.GetString(response.Data);
     }
 
     public String Send(string subject)
