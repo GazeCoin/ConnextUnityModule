@@ -60,6 +60,9 @@ public class ConnextClient
 
         wallet = HDWallet.getInstance();
         address = wallet.GetAccount(0).Address;
+        Debug.Log("Address:" + address.ToString());
+        string xpubKey = HDWallet.GetXPubKey();
+        Debug.Log("xpub key:" + xpubKey);
         auth = new ConnextAuth
         {
             Address = address
@@ -73,40 +76,44 @@ public class ConnextClient
         string configJson = mc.Send("config.get", true);
         Debug.Log("connext config: " + configJson);
         config = JsonConvert.DeserializeObject<ConnextConfig>(configJson);
-        if (!config.IsError())
-        {
-            Debug.Log("network " + config.response.ethNetwork.name);
-            NodePublicIdentifier = config.response.nodePublicIdentifier;
-
-            Debug.Log("get app registry");
-            configJson = mc.Send("app-registry", true);
-            Debug.Log("app-registry: " + configJson);
-            appRegistry = JsonConvert.DeserializeObject<AppRegistry>(configJson);
-            if (!appRegistry.IsError())
-            {
-                Debug.Log("Apps registered " + appRegistry.response.Length);
-            }
-
-            // 
-        }
-        else
+        if (config.IsError())
         {
             Debug.Log("Error getting config: " + config.err);
+            return;
         }
 
-        /*
-        // Get ERC20 token contract instance
-        token = new ERC20Token(account, config.tokenAddress, ethNodeUrl);
-        channelManager = new ChannelManagerContract(account, config.contractAddress, ethNodeUrl);
+        Debug.Log("network " + config.response.ethNetwork.name);
+        NodePublicIdentifier = config.response.nodePublicIdentifier;
 
-        // Auth sequence
-        await Authorisation();
+        Debug.Log("get app registry");
+        configJson = mc.Send("app-registry", true);
+        Debug.Log("app-registry: " + configJson);
+        appRegistry = JsonConvert.DeserializeObject<AppRegistry>(configJson);
+        if (!appRegistry.IsError())
+        {
+            Debug.Log("Apps registered " + appRegistry.response.Length);
+        }
 
-        await FetchChannelState();
-        channelTxCount = channelState.txCountChain;
+        // Node.create (cfModule)
 
-        await HubSync();
-        */
+
+        // node.getChannel
+        Debug.Log("get channel");
+        string channelJson = mc.Send("channel.get." + xpubKey, true);
+        Debug.Log("channel: " + channelJson);
+
+        // create channel if none already
+        if (channelJson.Equals("{\"err\":null}"))
+        {
+            Debug.Log("create channel");
+            channelJson = mc.Send("channel.create." + xpubKey, true);
+            Debug.Log("create channel: " + channelJson);
+
+        }
+
+        // 
+        // register subscriptions
+
     }
 
     public async Task Authorisation()

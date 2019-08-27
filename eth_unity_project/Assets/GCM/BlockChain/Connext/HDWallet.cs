@@ -4,21 +4,22 @@ using UnityEngine;
 using System;
 using System.IO;
 using Nethereum.Signer;
+using System.Text;
 
 public class HDWallet
 {
     private static Wallet _wallet;
     private readonly string keystore = Path.Combine(Application.persistentDataPath, "keystore.dat");
+    private static Mnemonic _mnemonic;
 
     public void CreateWallet()
     {
-        Mnemonic words;
         if (!File.Exists(keystore))
         {
-            words = new Mnemonic(Wordlist.English, WordCount.Twelve);
+            _mnemonic = new Mnemonic(Wordlist.English, WordCount.Twelve);
             using (StreamWriter sw = File.CreateText(keystore))
             {
-                sw.WriteLine(words.ToString());
+                sw.WriteLine(_mnemonic.ToString());
             }
         }
         else
@@ -29,7 +30,7 @@ public class HDWallet
                 s = sr.ReadLine();
                 if (s != null)
                 {
-                    words = new Mnemonic(s);
+                    _mnemonic = new Mnemonic(s);
                 }
                 else
                 {
@@ -37,10 +38,10 @@ public class HDWallet
                 }
             }
         }
-        Debug.Log("mnemonic: " + words.ToString());
+        Debug.Log("mnemonic: " + _mnemonic.ToString());
         //string Words = "ripple scissors kick mammal hire column oak again sun offer wealth tomorrow wagon turn fatal";
         string Password1 = "password";
-        _wallet = new Wallet(words.ToString(), Password1);
+        _wallet = new Wallet(_mnemonic.ToString(), Password1);
         //for (int i = 0; i < 10; i++)
         //{
         int i = 0;
@@ -103,5 +104,16 @@ public class HDWallet
         for (int i = 0; i < NumberChars; i += 2)
             bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
         return bytes;
+    }
+
+    public static string GetXPubKey()
+    {
+        ExtKey extKey = _mnemonic.DeriveExtKey();
+        Debug.Log("exKey to Wif:" + extKey.GetWif(NBitcoin.Network.Main).Neuter().ToString());
+        //PubKey xPubKey = extKey.Neuter().PubKey;
+        
+        String xpub = extKey.GetWif(NBitcoin.Network.Main).Neuter().ToString();
+        //string xpub = extKey.Neuter()..PubKey.ToString();
+        return xpub;
     }
 }
