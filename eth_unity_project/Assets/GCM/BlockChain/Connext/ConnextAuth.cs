@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-//using System.Net.Http;
 using UnityEngine;
 using System.Net;
 using UnityEngine.Networking;

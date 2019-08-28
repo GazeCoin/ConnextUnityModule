@@ -87,6 +87,7 @@
     <Compile Include="Assets\GCM\Blockchain\GazeCoinEthAPI.cs" />
     <Compile Include="Assets\GCM\Blockchain\Multiverse\Apartment.cs" />
     <Compile Include="Assets\GCM\Blockchain\Payment.cs" />
+    <None Include="Assets\JsonDotNet\link.xml" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
@@ -363,9 +364,6 @@
     <Reference Include="Nethereum.Web3">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.Web3.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Buffers">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/System.Buffers.dll</HintPath>
     </Reference>
@@ -401,6 +399,9 @@
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.5f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

@@ -299,9 +299,6 @@
     <Reference Include="Nethereum.Web3">
       <HintPath>Assets/Plugins/Nethereum.Web3.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Assets/Plugins/Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Buffers">
       <HintPath>Assets/Plugins/System.Buffers.dll</HintPath>
     </Reference>
@@ -328,6 +325,9 @@
     </Reference>
     <Reference Include="AwaitExtensions">
       <HintPath>Assets/Plugins/Numba/AwaitExtensions/Code/AwaitExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Assets/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2019.1.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\mscorlib.dll</HintPath>
