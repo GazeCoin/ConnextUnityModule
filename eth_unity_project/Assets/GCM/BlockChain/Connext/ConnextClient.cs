@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Nethereum.HdWallet;
 using System.Threading.Tasks;
-using Numba.Awaiting.Engine;
 using Nethereum.Web3;
 using System.Numerics;
 using System.Net;
@@ -176,7 +175,7 @@ public class ConnextClient
     public async Task UpdateHub(UpdateRequest[] updateRequest, long lastThreadUpdateId)
     {
         Debug.Log("Update hub");
-        string jsonRequest = "{\"lastThreadUpdateId:\" {0} }".Replace("{0}", txCountGlobal.ToString());
+        string jsonRequest = "{\"lastThreadUpdateId:\" {0} }".Replace("{0}", lastThreadUpdateId.ToString());
 
         Utils.WebRequest request = new Utils.WebRequest(CONNEXT_HUB_URL + "/channel/" + address + "/request-collateralization", "POST");
         request.SetBody(jsonRequest);

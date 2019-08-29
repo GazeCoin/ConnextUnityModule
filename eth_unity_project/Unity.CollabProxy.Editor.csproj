@@ -329,9 +329,6 @@
     <Reference Include="Nethereum.Web3">
       <HintPath>Assets/Plugins/Nethereum.Web3.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Assets/Plugins/Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Buffers">
       <HintPath>Assets/Plugins/System.Buffers.dll</HintPath>
     </Reference>
@@ -373,6 +370,9 @@
     </Reference>
     <Reference Include="UnityEditor.Purchasing">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/PackageCache/com.unity.purchasing@2.0.6/Editor/UnityEditor.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Assets/JsonDotNet/Assemblies/Standalone/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2019.1.5f1\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\mscorlib.dll</HintPath>
@@ -749,6 +749,10 @@
     <Compile Include="Packages\com.unity.collab-proxy\Editor\Collab\Views\StatusView.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\JsonDotNet\Assemblies\AOT\Newtonsoft.Json.XML" />
+    <None Include="Assets\JsonDotNet\Assemblies\Standalone\Newtonsoft.Json.XML" />
+    <None Include="Assets\JsonDotNet\Assemblies\Windows\Newtonsoft.Json.XML" />
+    <None Include="Assets\JsonDotNet\link.xml" />
     <None Include="Assets\Plugins\Numba\AwaitExtensions\Code\AwaitExtensions.xml" />
     <None Include="Packages\com.unity.analytics\DataPrivacy\Unity.Analytics.DataPrivacy.asmdef" />
     <None Include="Packages\com.unity.analytics\Tests\Editor\Unity.Analytics.StandardEvents\Unity.Analytics.StandardEvents.EditorTests.asmdef" />
@@ -758,6 +762,11 @@
     <None Include="Packages\com.unity.collab-proxy\Editor\Resources\Styles\CollabHistoryLight.uss" />
     <None Include="Packages\com.unity.collab-proxy\Editor\Unity.CollabProxy.Editor.asmdef" />
     <None Include="Packages\com.unity.collab-proxy\Tests\Editor\Unity.CollabProxy.EditorTests.asmdef" />
+    <None Include="Packages\com.unity.multiplayer-hlapi\Editor\Tools\Weaver\com.unity.multiplayer-weaver.Editor.asmdef" />
+    <None Include="Packages\com.unity.multiplayer-hlapi\Editor\com.unity.multiplayer-hlapi.Editor.asmdef" />
+    <None Include="Packages\com.unity.multiplayer-hlapi\Runtime\com.unity.multiplayer-hlapi.Runtime.asmdef" />
+    <None Include="Packages\com.unity.multiplayer-hlapi\Tests\Editor\com.unity.multiplayer-hlapi.EditorTests.asmdef" />
+    <None Include="Packages\com.unity.multiplayer-hlapi\Tests\Runtime\com.unity.multiplayer-hlapi.Tests.asmdef" />
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Dark.uss" />
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Light.uss" />
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Templates\Alert.uxml" />
@@ -787,6 +796,12 @@
     <None Include="Packages\com.unity.timeline\Runtime\Unity.Timeline.asmdef" />
     <None Include="Packages\com.unity.timeline\Tests\Editor\Unity.Timeline.Package.EditorTests.asmdef" />
     <None Include="Packages\com.unity.timeline\Tests\PlayMode\Unity.Timeline.Package.Tests.asmdef" />
+    <None Include="Packages\com.unity.xr.legacyinputhelpers\Editor\LegacyInputHelpersEditor.asmdef" />
+    <None Include="Packages\com.unity.xr.legacyinputhelpers\Editor\TrackedPoseDriver\UnityEditor.SpatialTracking.asmdef" />
+    <None Include="Packages\com.unity.xr.legacyinputhelpers\Runtime\LegacyInputHelpers.asmdef" />
+    <None Include="Packages\com.unity.xr.legacyinputhelpers\Runtime\TrackedPoseDriver\UnityEngine.SpatialTracking.asmdef" />
+    <None Include="Packages\com.unity.xr.legacyinputhelpers\Tests\Editor\LegacyInputHelpersEditorTests.asmdef" />
+    <None Include="Packages\com.unity.xr.legacyinputhelpers\Tests\Runtime\TrackedPoseDriver\UnityEngine.SpatialTracking.Tests.asmdef" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

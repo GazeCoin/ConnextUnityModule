@@ -86,8 +86,8 @@
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+    <Reference Include="com.unity.multiplayer-hlapi.Editor">
+      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
@@ -98,11 +98,26 @@
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+    <Reference Include="com.unity.multiplayer-weaver.Editor">
+      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/com.unity.multiplayer-weaver.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.XR.LegacyInputHelpers">
+      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.SpatialTracking">
+      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTracking">
+      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.XR.LegacyInputHelpers">
+      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="com.unity.multiplayer-hlapi.Runtime">
+      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -299,9 +314,6 @@
     <Reference Include="Nethereum.ABI">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.ABI.dll</HintPath>
     </Reference>
-    <Reference Include="Nethereum.Accounts">
-      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.Accounts.dll</HintPath>
-    </Reference>
     <Reference Include="Nethereum.Contracts">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.Contracts.dll</HintPath>
     </Reference>
@@ -317,15 +329,6 @@
     <Reference Include="Nethereum.JsonRpc.Client">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.JsonRpc.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Nethereum.JsonRpc.IpcClient">
-      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.JsonRpc.IpcClient.dll</HintPath>
-    </Reference>
-    <Reference Include="Nethereum.JsonRpc.RpcClient">
-      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.JsonRpc.RpcClient.dll</HintPath>
-    </Reference>
-    <Reference Include="Nethereum.JsonRpc.WebSocketClient">
-      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.JsonRpc.WebSocketClient.dll</HintPath>
-    </Reference>
     <Reference Include="Nethereum.KeyStore">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.KeyStore.dll</HintPath>
     </Reference>
@@ -334,9 +337,6 @@
     </Reference>
     <Reference Include="Nethereum.Parity">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.Parity.dll</HintPath>
-    </Reference>
-    <Reference Include="Nethereum.Quorum">
-      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.Quorum.dll</HintPath>
     </Reference>
     <Reference Include="Nethereum.RLP">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Nethereum.RLP.dll</HintPath>
@@ -386,8 +386,8 @@
     <Reference Include="System.Security.Cryptography.X509Certificates">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
-    <Reference Include="AwaitExtensions">
-      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/Numba/AwaitExtensions/Code/AwaitExtensions.dll</HintPath>
+    <Reference Include="System.Threading">
+      <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Assets/Plugins/System.Threading.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
       <HintPath>C:/dev/workspace/ConnextUnityModule/eth_unity_project/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
@@ -743,6 +743,12 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.5f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{C0AEB5D7-9108-879A-687C-E386C71C35A4}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
